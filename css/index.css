@@ -1,6 +1,6 @@
 body{
 	height: 100%;
-	background-color: #d3d3d3;
+	background-color: #f2f2f2;
 	font-family: 'Helvetica', sans-serif;
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
@@ -10,12 +10,10 @@ body{
 	cursor: pointer;
 }
 
-#content{
-	background-color: #5c5c8a;
+.barvis{
 	margin-top: 5%;
 	height: 80%;
 	width: 60%;
-
 }
 
 #wrapper{

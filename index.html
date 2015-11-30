@@ -1,9 +1,12 @@
 <head>
 
+	<!-- stylesheets -->
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
 
+
+	<!-- libraries -->
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
 
 	<!-- include scripts for viz -->
@@ -14,7 +17,12 @@
 
 	<!-- div for main content, centered in wrapper -->
 	<div id = "wrapper">
-		<div id = "content"></div>
+		<div class="card blue-grey darken-1 barvis z-depth-5">
+			<div class = "card-content">
+				<span class="card-title">Sentiment Analysis Bar Graph</span>
+				<div id = "content"></div>
+			</div>
+		</div>
 	</div>
 
 	<script>
@@ -34,7 +42,6 @@
 
             // instantiate vis objects
             var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), allData, metaData, MyEventHandler);
-
 
 		})
 	</script>

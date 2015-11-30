@@ -71,12 +71,6 @@ SentimentBarVis.prototype.initVis = function(){
 
 	this.svg.append("g")
 	  .attr("class", "y axis")
-	.append("text")
-	  .attr("x", 170)
-	  .attr("y", -12)
-	  .attr("dy", ".71em")
-	  .style("text-anchor", "end")
-	  .text("Sentiment Analysis ")
 
     // filter, aggregate, modify data
     this.wrangleData();
