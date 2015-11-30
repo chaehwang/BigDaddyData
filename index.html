@@ -1,8 +1,30 @@
 <head>
+
 	<link rel="stylesheet" type="text/css" href="css/index.css">
+
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="libs/bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
+
+	<!-- include scripts for viz -->
+	<script src="js/sentimentBarGraphVis.js"></script>
+
 </head>
 <body>
 
-	<div> Hello, world! </div>
+	<!-- div for main content, centered in wrapper -->
+	<div id = "wrapper">
+		<div id = "content"> Hello, world! </div>
+	</div>
 
+	<script>
+		$(function(){
+
+			// create the bar vis and attach to page
+			createSentimentBarVis();
+
+
+		})
+	</script>
 </body>

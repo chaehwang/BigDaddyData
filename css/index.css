@@ -1,4 +1,30 @@
 body{
+	height: 100%;
 	background-color: #d3d3d3;
 	font-family: 'Helvetica', sans-serif;
-};
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+#content{
+	background-color: #5c5c8a;
+	justify-content: center;
+	text-align: center;
+	margin-top: 5%;
+	height: 80%;
+	width: 60%;
+
+}
+
+#wrapper{
+	flex: 1;
+	height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
