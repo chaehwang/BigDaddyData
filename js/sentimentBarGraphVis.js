@@ -141,6 +141,8 @@ SentimentBarVis.prototype.updateVis = function(){
 						.selectAll('rect')
 						.data(this.displayData)
 						.enter()
+						// .append('a')
+						// .attr('xlink:href', '')
 						.append('rect')
 						.attr('height', barHeight)
 						.attr({'x':0, 'y':function(d,i){ return that.y(i)}})
@@ -167,7 +169,12 @@ SentimentBarVis.prototype.updateVis = function(){
 						.on('mouseout', function(){
 							d3.selectAll('rect')
 								.style("fill", that.colorScale);
+						})
+						.on('click', function(d, i){
+
+							alert(that.companyList[i]);
 						});
+
 
 	// transition bars
 	var transit = d3.select("svg").selectAll("rect")

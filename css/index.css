@@ -5,6 +5,11 @@ body{
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
+#bars{
+
+	cursor: pointer;
+}
+
 #content{
 	background-color: #5c5c8a;
 	margin-top: 5%;
