@@ -5,7 +5,6 @@
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 
 	<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="libs/bootstrap/js/bootstrap.min.js" charset="utf-8"></script>
 
 	<!-- include scripts for viz -->
 	<script src="js/sentimentBarGraphVis.js"></script>
@@ -15,14 +14,26 @@
 
 	<!-- div for main content, centered in wrapper -->
 	<div id = "wrapper">
-		<div id = "content"> Hello, world! </div>
+		<div id = "content"></div>
 	</div>
 
 	<script>
 		$(function(){
 
-			// create the bar vis and attach to page
-			createSentimentBarVis();
+			// dummy data
+			var allData = [{'company': 'Facebook', 'score': 99}, 
+						{'company': 'Google', 'score': 75}, 
+						{'company': 'Dropbox', 'score': 24}, 
+						{'company': 'Airbnb', 'score': 17}, 
+						{'company': 'Uber', 'score': 51}, ];
+
+			var metaData = {}
+
+			// Create an eventHandler
+                var MyEventHandler = new Object();
+
+            // instantiate vis objects
+            var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), allData, metaData, MyEventHandler);
 
 
 		})

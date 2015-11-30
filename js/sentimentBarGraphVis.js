@@ -1,102 +1,179 @@
+/**
+	
+	Sentiment Bar Graph (main page)
 
-// hack, right now just temporary to give us something to start with
-// example code from http://bl.ocks.org/kiranml1/6872226
-function createSentimentBarVis(){
+	Description: Object for the main sentiment bar graph to be shown on the main page
+	Data input: [{company, totalSentimentScore}...]
+	Output: 
+		Horizontal bar graph, one bar for each company
+		Ordered greatest to least in order of sentiment score
+		Clicking on a bar results in loading the detailed view for that page
 
-	var categories= ['','Accessories', 'Audiophile', 'Camera & Photo', 'Cell Phones', 'Computers','eBook Readers','Gadgets','GPS & Navigation','Home Audio','Office Electronics','Portable Audio','Portable Video','Security & Surveillance','Service','Television & Video','Car & Vehicle'];
+**/
 
-	var dollars = [213,209,190,179,156,209,190,179,213,209,190,179,156,209,190,190];
+SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
 
-	var colors = ['#0000b4','#0082ca','#0094ff','#0d4bcf','#0066AE','#074285','#00187B','#285964','#405F83','#416545','#4D7069','#6E9985','#7EBC89','#0283AF','#79BCBF','#99C19E'];
+    // set params
+    this.parentElement = _parentElement;
+    this.data = _data;
+    this.metaData = _metaData;
+    this.eventHandler = _eventHandler;
 
-	var grid = d3.range(25).map(function(i){
-		return {'x1':0,'y1':0,'x2':0,'y2':480};
-	});
+    // instantiate display data
+    this.displayData = [];
 
-	var tickVals = grid.map(function(d,i){
-		if(i>0){ return i*10; }
-		else if(i===0){ return "100";}
-	});
+    // define all "constants" here
+    this.margin = {top: 20, right: 20, bottom: 30, left: 30},
+    this.width = 700 - this.margin.left - this.margin.right,
+    this.height = 700 - this.margin.top - this.margin.bottom;
 
-	var xscale = d3.scale.linear()
-					.domain([10,250])
-					.range([0,722]);
+    this.initVis();
+}
 
-	var yscale = d3.scale.linear()
-					.domain([0,categories.length])
-					.range([0,480]);
 
-	var colorScale = d3.scale.quantize()
-					.domain([0,categories.length])
-					.range(colors);
+/**
+ * Method that sets up the SVG and the variables
+ */
+SentimentBarVis.prototype.initVis = function(){
 
-	var canvas = d3.select('#content')
-					.append('svg')
-					.attr({'width':700,'height':450});
+    var that = this;
 
-	var grids = canvas.append('g')
-					  .attr('id','grid')
-					  .attr('transform','translate(150,10)')
-					  .selectAll('line')
-					  .data(grid)
-					  .enter()
-					  .append('line')
-					  .attr({'x1':function(d,i){ return i*30; },
-							 'y1':function(d){ return d.y1; },
-							 'x2':function(d,i){ return i*30; },
-							 'y2':function(d){ return d.y2; },
-						})
-					  .style({'stroke':'#adadad','stroke-width':'1px'});
+    this.svg = this.parentElement.select("svg");
 
-	var	xAxis = d3.svg.axis();
-		xAxis
-			.orient('bottom')
-			.scale(xscale)
-			.tickValues(tickVals);
+    // constructs SVG layout
+    this.svg = this.parentElement.append("svg")
+        .attr("width", this.width + this.margin.left + this.margin.right)
+        .attr("height", this.height + this.margin.top + this.margin.bottom)
+      .append("g")
+        .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")");
 
-	var	yAxis = d3.svg.axis();
-		yAxis
-			.orient('left')
-			.scale(yscale)
-			.tickSize(2)
-			.tickFormat(function(d,i){ return categories[i]; })
-			.tickValues(d3.range(17));
+    // create scales and axes
+	this.x = d3.scale.linear()
+					.range([0,600]);
 
-	var y_xis = canvas.append('g')
-					  .attr("transform", "translate(150,0)")
-					  .attr('id','yaxis')
-					  .call(yAxis);
+	this.y = d3.scale.ordinal()
+					.rangeRoundBands([0, this.height/2], .2);
 
-	var x_xis = canvas.append('g')
-					  .attr("transform", "translate(150,480)")
-					  .attr('id','xaxis')
-					  .call(xAxis);
+	this.colorScale = d3.scale.category20();
 
-	var chart = canvas.append('g')
-						.attr("transform", "translate(150,0)")
+	this.xAxis = d3.svg.axis()
+						.orient('bottom')
+						.scale(this.x);
+
+	this.yAxis = d3.svg.axis()
+					.orient('left')
+					.scale(this.y);
+
+	this.svg.append("g")
+	  .attr("class", "x axis")
+	  .attr("transform", "translate(0," + this.height/2 + ")")
+
+	this.svg.append("g")
+	  .attr("class", "y axis")
+	.append("text")
+	  .attr("x", 170)
+	  .attr("y", -12)
+	  .attr("dy", ".71em")
+	  .style("text-anchor", "end")
+	  .text("Sentiment Analysis ")
+
+    // filter, aggregate, modify data
+    this.wrangleData();
+
+    // call the update method
+    this.updateVis();
+}
+
+
+
+/**
+ * Method to wrangle the data
+  */
+SentimentBarVis.prototype.wrangleData = function(){
+
+	// set that for scope
+	var that = this;
+
+    // process the given data to be in the format that we want
+    this.companyList = [];
+    this.scoreList = [];
+
+    // separate the data into companyList and scoreList
+    this.data.map(function(d, i){
+
+    	that.companyList.push(d.company);
+    	that.scoreList.push(d.score);
+    })
+
+    // set displayData to be scoreList since that's going to determine our bar values
+    this.displayData = this.scoreList;
+
+}
+
+
+
+/**
+ * the drawing function - should use the D3 selection, enter, exit
+ * @param _options -- only needed if different kinds of updates are needed
+ */
+SentimentBarVis.prototype.updateVis = function(){
+
+	var that = this;
+
+    // set domains for the scales -- x is score, y is company
+    this.x.domain([0, d3.max(this.displayData)]);
+	this.y.domain(d3.range(this.displayData.length));
+
+    // updates axis
+    this.svg.select(".x.axis")
+        .call(this.xAxis);
+
+    this.svg.select(".y.axis")
+        .call(this.yAxis)
+
+    // add the chart
+	var chart = this.svg.append('g')
+						.attr("transform", "translate(0,0)")
 						.attr('id','bars')
 						.selectAll('rect')
-						.data(dollars)
+						.data(this.displayData)
 						.enter()
 						.append('rect')
 						.attr('height',19)
-						.attr({'x':0,'y':function(d,i){ return yscale(i)+19; }})
-						.style('fill',function(d,i){ return colorScale(i); })
-						.attr('width',function(d){ return 0; });
+						.attr({'x':0,'y':function(d,i){ return that.y(i)+19; }})
+						.style('fill', this.colorScale)
+						.attr('width', 0);
 
-
+	// transition bars
 	var transit = d3.select("svg").selectAll("rect")
-					    .data(dollars)
+					    .data(this.displayData)
 					    .transition()
 					    .duration(1000) 
-					    .attr("width", function(d) {return xscale(d); });
+					    .attr("width", function(d) {return that.x(d); });
 
+	// transition text
 	var transitext = d3.select('#bars')
 						.selectAll('text')
-						.data(dollars)
+						.data(this.companyList)
 						.enter()
 						.append('text')
-						.attr({'x':function(d) {return xscale(d)-200; },'y':function(d,i){ return yscale(i)+35; }})
-						.text(function(d){ return d+"$"; }).style({'fill':'#fff','font-size':'14px'});
+						.attr("x", function(d, i){ return that.x(that.displayData[i]) + 65; })
+						.attr("y", function(d, i){ return that.y(i) + 35; })
+						.style("text-anchor", "end")
+						.text(function(d){ return d;});
+
+}
+
+/**
+ * Gets called by event handler and should create new aggregated data
+ * aggregation is done by the function "aggregate(filter)". Filter has to
+ * be defined here.
+ * @param selection
+ */
+SentimentBarVis.prototype.onSelectionChange= function (selectionStart, selectionEnd){
+
+    // TODO: call wrangle function
+    this.wrangleData();
+
 
 }
