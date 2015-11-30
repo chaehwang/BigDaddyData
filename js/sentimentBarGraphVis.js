@@ -158,11 +158,26 @@ SentimentBarVis.prototype.updateVis = function(){
 
 								});
 
+							d3.selectAll('#companyLabel')
+								.style('fill', function(d2, i2){
 
+
+									if(i2 == i){
+										return "black"
+									}
+
+									else{
+										return "#8c8c8c";
+									}
+
+								})
 						})
 						.on('mouseout', function(){
 							d3.selectAll('rect')
 								.style("fill", that.colorScale);
+
+							d3.selectAll('#companyLabel')
+								.style('fill', "black");
 						})
 						.on('click', function(d, i){
 
@@ -183,6 +198,7 @@ SentimentBarVis.prototype.updateVis = function(){
 						.data(this.companyList)
 						.enter()
 						.append('text')
+						.attr("id", "companyLabel")
 						.attr("x", function(d, i){ return that.x(that.displayData[i]) + 5; })
 						.attr("y", function(d, i){ return that.y(i) + barHeight/2 + 4; })
 						.text(function(d){ return d;});
