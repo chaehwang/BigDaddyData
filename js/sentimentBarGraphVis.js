@@ -23,8 +23,8 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
     this.displayData = [];
 
     // define all "constants" here
-    this.margin = {top: 20, right: 20, bottom: 30, left: 30},
-    this.width = 700 - this.margin.left - this.margin.right,
+    this.margin = {top: 20, right: 40, bottom: 30, left: 30},
+    this.width = 720 - this.margin.left - this.margin.right,
     this.height = 700 - this.margin.top - this.margin.bottom;
 
     this.initVis();
@@ -120,6 +120,8 @@ SentimentBarVis.prototype.updateVis = function(){
 
 	var that = this;
 
+	var barHeight = 40;
+
     // set domains for the scales -- x is score, y is company
     this.x.domain([0, d3.max(this.displayData)]);
 	this.y.domain(d3.range(this.displayData.length));
@@ -139,8 +141,8 @@ SentimentBarVis.prototype.updateVis = function(){
 						.data(this.displayData)
 						.enter()
 						.append('rect')
-						.attr('height',19)
-						.attr({'x':0,'y':function(d,i){ return that.y(i)+19; }})
+						.attr('height', barHeight)
+						.attr({'x':0, 'y':function(d,i){ return that.y(i)}})
 						.style('fill', this.colorScale)
 						.attr('width', 0);
 
@@ -157,9 +159,8 @@ SentimentBarVis.prototype.updateVis = function(){
 						.data(this.companyList)
 						.enter()
 						.append('text')
-						.attr("x", function(d, i){ return that.x(that.displayData[i]) + 65; })
-						.attr("y", function(d, i){ return that.y(i) + 35; })
-						.style("text-anchor", "end")
+						.attr("x", function(d, i){ return that.x(that.displayData[i]) + 5; })
+						.attr("y", function(d, i){ return that.y(i) + barHeight/2 + 2; })
 						.text(function(d){ return d;});
 
 }
