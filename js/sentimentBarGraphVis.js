@@ -22,6 +22,9 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
     // instantiate display data
     this.displayData = [];
 
+    // clear existing viz
+   	this.parentElement.select("svg").remove();
+
     // define all "constants" here
     this.margin = {top: 20, right: 40, bottom: 30, left: 30},
     this.width = 720 - this.margin.left - this.margin.right,
@@ -181,7 +184,7 @@ SentimentBarVis.prototype.updateVis = function(){
 						})
 						.on('click', function(d, i){
 
-							alert(that.companyList[i]);
+							$('#sentimentBarGraph').toggleClass('transition');
 						});
 
 

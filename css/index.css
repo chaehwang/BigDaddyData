@@ -16,6 +16,11 @@ body{
 	width: 60%;
 }
 
+.transition{
+
+	animation: move 1.5s ease forwards;
+}
+
 #wrapper{
 	flex: 1;
 	height: 100%;
@@ -28,4 +33,14 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+@keyframes move {
+  50% {
+     transform: translate(-200%, 0px);
+  }
+
+  100% {
+  	left: -100%;
+  }
 }
