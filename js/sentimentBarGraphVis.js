@@ -22,9 +22,6 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
     // instantiate display data
     this.displayData = [];
 
-    // clear existing viz
-   	this.parentElement.select("svg").remove();
-
     // define all "constants" here
     this.margin = {top: 20, right: 40, bottom: 30, left: 30},
     this.width = 720 - this.margin.left - this.margin.right,
@@ -67,13 +64,6 @@ SentimentBarVis.prototype.initVis = function(){
 					.orient('left')
 					.tickFormat('')
 					.scale(this.y);
-
-	this.svg.append("g")
-	  .attr("class", "x axis")
-	  .attr("transform", "translate(0," + this.height/2 + ")")
-
-	this.svg.append("g")
-	  .attr("class", "y axis")
 
     // filter, aggregate, modify data
     this.wrangleData();
@@ -125,11 +115,6 @@ SentimentBarVis.prototype.updateVis = function(){
 	this.y.domain(d3.range(this.displayData.length));
 
     // updates axis
-    this.svg.select(".x.axis")
-        .call(this.xAxis);
-
-    this.svg.select(".y.axis")
-        .call(this.yAxis)
 
     // add the chart
 	var chart = this.svg.append('g')
@@ -184,8 +169,25 @@ SentimentBarVis.prototype.updateVis = function(){
 						})
 						.on('click', function(d, i){
 
-							$('#sentimentBarGraph').toggleClass('transition');
+							console.log(that.companyList[i]);
+
+							$(that.eventHandler).trigger('selectCompany', that.companyList[i]);
+							$('#sentimentBarGraph').toggleClass('transitionLeftOut');
+							$('#companyPage').toggleClass('transitionRightIn');
 						});
+
+	this.svg.append("g")
+	  .attr("class", "x axis")
+	  .attr("transform", "translate(0," + this.height/2 + ")")
+
+	this.svg.append("g")
+	  .attr("class", "y axis")
+	  
+    this.svg.select(".x.axis")
+        .call(this.xAxis);
+
+    this.svg.select(".y.axis")
+        .call(this.yAxis)
 
 
 	// transition bars
@@ -205,6 +207,7 @@ SentimentBarVis.prototype.updateVis = function(){
 						.attr("x", function(d, i){ return that.x(that.displayData[i]) + 5; })
 						.attr("y", function(d, i){ return that.y(i) + barHeight/2 + 4; })
 						.text(function(d){ return d;});
+
 
 }
 

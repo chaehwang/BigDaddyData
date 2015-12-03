@@ -10,15 +10,24 @@ body{
 	cursor: pointer;
 }
 
+#companyPage{
+	left: 200%;
+	position: absolute;
+}
+
 .barvis{
 	margin-top: 5%;
 	height: 80%;
 	width: 60%;
 }
 
-.transition{
+.transitionLeftOut{
 
-	animation: move 1.5s ease forwards;
+	animation: leftMoveOut 1s ease forwards;
+}
+
+.transitionRightIn{
+	animation: rightMoveIn 1s ease forwards;
 }
 
 #wrapper{
@@ -35,12 +44,33 @@ body{
     justify-content: center;
 }
 
-@keyframes move {
+@keyframes leftMoveOut {
   50% {
-     transform: translate(-200%, 0px);
+     transform: translate(-200%, 5px);
+  }
+
+  75% {
+  	left: -200%;
   }
 
   100% {
-  	left: -100%;
+  	left: -300%;
+  	width: 0;
+  }
+}
+
+@keyframes rightMoveIn {
+  50% {
+    transform: translate(25%, 5%);
+  }
+
+  75%{
+  	/*left: 25%;*/
+  }
+
+  100% {
+	left: 0%;
+  	position: relative;
+	margin-top: 5%;
   }
 }
