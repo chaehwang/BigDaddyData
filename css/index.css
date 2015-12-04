@@ -1,0 +1,76 @@
+body{
+	height: 100%;
+	background-color: #f2f2f2;
+	font-family: 'Helvetica', sans-serif;
+	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+#bars{
+
+	cursor: pointer;
+}
+
+#companyPage{
+	left: 200%;
+	position: absolute;
+}
+
+.barvis{
+	margin-top: 5%;
+	height: 80%;
+	width: 60%;
+}
+
+.transitionLeftOut{
+
+	animation: leftMoveOut 1s ease forwards;
+}
+
+.transitionRightIn{
+	animation: rightMoveIn 1s ease forwards;
+}
+
+#wrapper{
+	flex: 1;
+	height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes leftMoveOut {
+  50% {
+     transform: translate(-200%, 5px);
+  }
+
+  75% {
+  	left: -200%;
+  }
+
+  100% {
+  	left: -300%;
+  	width: 0;
+  }
+}
+
+@keyframes rightMoveIn {
+  50% {
+    transform: translate(25%, 5%);
+  }
+
+  75%{
+  	/*left: 25%;*/
+  }
+
+  100% {
+	left: 0%;
+  	position: relative;
+	margin-top: 5%;
+  }
+}
