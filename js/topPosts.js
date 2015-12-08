@@ -31,6 +31,12 @@ function addPosts(postsList){
 	// find the parent element to append divs to
 	var parent = $('#companyPosts');
 
+	// remove previous posts that might be there from other companies
+	parent.empty();
+
+	// add back in the title
+	parent.append("<span class='card-title' id='postsTitle'>Top Posts</span>");
+
 	// construct the div for each post
 	postsList.map(function(d, i){
 
@@ -38,7 +44,7 @@ function addPosts(postsList){
 		var escapedText = d.text.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
 		// content is the div that we're going to append
-		var content = "<div>";
+		var content = "<div class='.childComment'>";
 
 		// add score
 		content += "<span> Score: " + d.postSentimentScore + ", </span >";
