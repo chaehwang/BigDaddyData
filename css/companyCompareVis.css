@@ -1,0 +1,11 @@
+.line-original{
+	stroke: blue;
+	fill:none;
+	stroke-width: 3;
+}
+
+.line-compare{
+	stroke: red;
+	fill: none;
+	stroke-width: 2.5;
+}

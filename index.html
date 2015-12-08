@@ -3,6 +3,7 @@
 	<!-- stylesheets -->
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<link rel="stylesheet" type="text/css" href="css/companyTrendVis.css">
+	<link rel="stylesheet" type="text/css" href="css/companyCompareVis.css">
 	<link rel="stylesheet" type="text/css" href="css/postStyling.css">
 
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
@@ -17,6 +18,7 @@
 	<script src="js/sentimentBarGraphVis.js"></script>
 	<script src="js/companyTrendVis.js"></script>
 	<script src="js/topPosts.js"></script>
+	<script src="js/companyCompareVis.js"></script>
 
 </head>
 <body>
@@ -58,6 +60,8 @@
 			<!-- card for the comparison -->
 			<div class="row">
 				<div class="card col s8 blue-grey darken-1 z-depth-5" id="companyCompare">
+
+					<div id="companyCompareVis"></div>
 				</div>		
 			</div>
 
@@ -90,6 +94,7 @@
             // instantiate vis objects
             var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), sentimentData, metaData, MyEventHandler);
             var company_trend_vis = new CompanyTrendVis(d3.select("#companyTrendVis"), companyData, metaData, MyEventHandler);
+            var company_compare_vis = new CompanyCompareVis(d3.select('#companyCompareVis'), companyData, metaData, MyEventHandler);
 
             // bind eventHandler to vis objects
             // listener for a specific company selected from graph
