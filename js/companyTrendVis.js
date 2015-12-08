@@ -23,7 +23,7 @@ CompanyTrendVis = function(_parentElement, _data, _metaData, _eventHandler){
     this.displayData = [];
 
     // define all "constants" here
-    this.margin = {top: 40, right: 40, bottom: 20, left: 30},
+    this.margin = {top: 40, right: 50, bottom: 20, left: 30},
     this.width = 720 - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
