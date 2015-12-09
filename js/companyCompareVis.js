@@ -136,8 +136,6 @@ CompanyCompareVis.prototype.updateVis = function(){
 
 	var that = this;
 
-	console.log(this.displayData);
-
     // set domains for the scales -- x is score, y is company
 	this.x.domain(d3.extent(this.displayData, function(d) { return d.date; }));
     this.y.domain([0, d3.max(this.displayData, function(d) { return d.score; })]);
