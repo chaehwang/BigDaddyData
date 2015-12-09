@@ -6,7 +6,6 @@ body{
 }
 
 .barvis{
-	margin-top: 5%;
 	height: 900px;
 	width: 60%;
 }
@@ -21,15 +20,20 @@ body{
 
 .transitionLeftOut{
 
-	animation: leftMoveOut 1s ease forwards;
+	animation: leftMoveOut .6s ease forwards;
 }
 
 .transitionRightIn{
-	animation: rightMoveIn 1s ease forwards;
+	animation: rightMoveIn .6s ease forwards;
 }
 
 .input-field label{
 	color: white;
+}
+
+#backButton{
+	/*i know, i know...*/
+	margin-top: -10%;
 }
 
 #bars{
@@ -38,7 +42,7 @@ body{
 }
 
 #companyCard{
-	margin-top: 5%;
+	margin-top: 3%;
 	height: 430;
 	width: 800;
 }
@@ -59,23 +63,28 @@ body{
 }
 
 #companyPosts{
-	margin-top: 5%;
+	margin-top: 3%;
 	margin-left: 3px;
 	height: 430;
 	width: 300;
 }
 
+#companyTitle{
+	/*see "#backButton"*/
+	margin-top: -5%;
+	font-size: 40px;
+}
+
 #wrapper{
 	flex: 1;
 	height: 1200px;
-    padding: 0;
+    padding-top: 6%;
     margin: 0;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    align-items: center;
     justify-content: center;
 }
 
