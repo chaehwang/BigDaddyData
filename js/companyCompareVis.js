@@ -1,12 +1,12 @@
 /**
 	
-	Company Trend Vis
+	Company Compare Vis
 
-	creates a single bar graph for the company's trend in sentiment score over time
+	creates a single graph with two lines to compare the sentiments of companies for the company's trend in sentiment score over time
 
 **/
 
-CompanyTrendVis = function(_parentElement, _data, _metaData, _eventHandler){
+CompanyCompareVis = function(_parentElement, _data, _metaData, _eventHandler){
 
     // set params
     this.parentElement = _parentElement;
@@ -16,6 +16,7 @@ CompanyTrendVis = function(_parentElement, _data, _metaData, _eventHandler){
 
     // instantiate display data
     this.displayData = [];
+    this.compareData = [];
 
     // define all "constants" here
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
@@ -29,7 +30,7 @@ CompanyTrendVis = function(_parentElement, _data, _metaData, _eventHandler){
 /**
  * Method that sets up the SVG and the variables
  */
-CompanyTrendVis.prototype.initVis = function(){
+CompanyCompareVis.prototype.initVis = function(){
 
     var that = this;
 
@@ -86,24 +87,42 @@ CompanyTrendVis.prototype.initVis = function(){
 /**
  * Method to wrangle the data
   */
-CompanyTrendVis.prototype.wrangleData = function(){
+CompanyCompareVis.prototype.wrangleData = function(){
 
 	// set that for scope
 	var that = this;
 
-	var dateList = []
+	var companyList = [];
+    var compareList = [];
 
     // create data parser
     var parseDate = d3.time.format("%Y-%m");
 
-    // separate the data into companyList and scoreList
+    var compareData = [{'postDate': '2015-05', 'postSentimentScore': 20}, 
+                        {'postDate': '2015-06', 'postSentimentScore': 40},
+                        {'postDate': '2015-07', 'postSentimentScore': 60},
+                        {'postDate': '2015-08', 'postSentimentScore': 80},
+                        {'postDate': '2015-09', 'postSentimentScore': 70} ];
+
+
+    // TODO: some js to get the name of the company selected so our data is dynamic
+    this.compareData = compareData;
+
+    // fill up companyList and compareList
     this.data.map(function(d, i){
 
-    	dateList.push({'date': parseDate.parse(d.postDate), 'score': d.postSentimentScore});
+    	companyList.push({'date': parseDate.parse(d.postDate), 'score': d.postSentimentScore});
     })
 
+    this.compareData.map(function(d, i){
+
+        compareList.push({'date': parseDate.parse(d.postDate), 'score': d.postSentimentScore});
+    })
+
+
     // set displayData to be scoreList since that's going to determine our bar values
-    this.displayData = dateList;
+    this.displayData = companyList;
+    this.compareData = compareList;
 
 }
 
@@ -113,7 +132,7 @@ CompanyTrendVis.prototype.wrangleData = function(){
  * the drawing function - should use the D3 selection, enter, exit
  * @param _options -- only needed if different kinds of updates are needed
  */
-CompanyTrendVis.prototype.updateVis = function(){
+CompanyCompareVis.prototype.updateVis = function(){
 
 	var that = this;
 
@@ -132,12 +151,24 @@ CompanyTrendVis.prototype.updateVis = function(){
 
 	 // Add the valueline path.
     this.svg.append("path")
-        .attr("class", "line")
+        .attr("class", "line-original")
         .attr("d", that.valueline(that.displayData));
+
+    // Add the compare path
+    this.svg.append("path")
+        .attr("class", "line-compare")
+        .attr("d", that.valueline(that.compareData));
 
     // Add the scatterplot
     this.svg.selectAll("dot")
         .data(this.displayData)
+      .enter().append("circle")
+        .attr("r", 3.5)
+        .attr("cx", function(d) { return that.x(d.date); })
+        .attr("cy", function(d) { return that.y(d.score); });
+
+    this.svg.selectAll("dot")
+        .data(this.compareData)
       .enter().append("circle")
         .attr("r", 3.5)
         .attr("cx", function(d) { return that.x(d.date); })
@@ -150,11 +181,10 @@ CompanyTrendVis.prototype.updateVis = function(){
  * be defined here.
  * @param selection
  */
-CompanyTrendVis.prototype.onSelectionChange= function (company){
+CompanyCompareVis.prototype.onSelectionChange= function (company){
 
     // update company value and re-wrangle data
     this.company = company;
-    d3.select('#companyTitle').html(company);
 
 
 }

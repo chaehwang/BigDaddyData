@@ -5,20 +5,14 @@ body{
 	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
-#bars{
-
-	cursor: pointer;
-}
-
-#companyPage{
-	left: 200%;
-	position: absolute;
-}
-
 .barvis{
 	margin-top: 5%;
 	height: 80%;
 	width: 60%;
+}
+
+.row{
+	display: inline;
 }
 
 .transitionLeftOut{
@@ -28,6 +22,34 @@ body{
 
 .transitionRightIn{
 	animation: rightMoveIn 1s ease forwards;
+}
+
+#bars{
+
+	cursor: pointer;
+}
+
+#companyCard{
+	margin-top: 5%;
+	height: 430;
+	width: 800;
+}
+
+#companyCompare{
+	height: 430;
+	margin-left: 16%;
+}
+
+#companyPage{
+	left: 200%;
+	position: absolute;
+}
+
+#companyPosts{
+	margin-top: 5%;
+	margin-left: 3px;
+	height: 430;
+	width: 300;
 }
 
 #wrapper{
