@@ -86,6 +86,9 @@ SentimentBarVis.prototype.wrangleData = function(){
     this.companyList = [];
     this.scoreList = [];
 
+    // sort the data by score
+    this.data = sortScores(this.data);
+
     // separate the data into companyList and scoreList
     this.data.map(function(d, i){
 
@@ -182,7 +185,7 @@ SentimentBarVis.prototype.updateVis = function(){
 
 	this.svg.append("g")
 	  .attr("class", "y axis")
-	  
+
     this.svg.select(".x.axis")
         .call(this.xAxis);
 
@@ -222,5 +225,19 @@ SentimentBarVis.prototype.onSelectionChange= function (selectionStart, selection
     // TODO: call wrangle function
     this.wrangleData();
 
+
+}
+
+// HELPER FUNCTIONS BELOW
+
+// function that sorts the list of companies by sentimentScore
+function sortScores(companyList){
+
+		companyList = companyList.sort(function(a, b){
+
+		return parseFloat(b.score) - parseFloat(a.score);
+	})
+
+	return companyList;
 
 }
