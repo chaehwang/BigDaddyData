@@ -25,7 +25,7 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
     // define all "constants" here
     this.margin = {top: 20, right: 40, bottom: 30, left: 30},
     this.width = 720 - this.margin.left - this.margin.right,
-    this.height = 700 - this.margin.top - this.margin.bottom;
+    this.height = 1400 - this.margin.top - this.margin.bottom;
 
     this.initVis();
 }
@@ -111,7 +111,7 @@ SentimentBarVis.prototype.updateVis = function(){
 
 	var that = this;
 
-	var barHeight = 50;
+	var barHeight = (this.height/2/(this.displayData.length)) - 3;
 
     // set domains for the scales -- x is score, y is company
     this.x.domain([0, d3.max(this.displayData)]);
@@ -171,8 +171,6 @@ SentimentBarVis.prototype.updateVis = function(){
 								.style('fill', "black");
 						})
 						.on('click', function(d, i){
-
-							console.log(that.companyList[i]);
 
 							$(that.eventHandler).trigger('selectCompany', that.companyList[i]);
 							$('#sentimentBarGraph').toggleClass('transitionLeftOut');
