@@ -62,8 +62,8 @@ CompanyScoreBreakdownVis.prototype.wrangleData = function(){
 
         // map over the posts for this company
         this.data[thisIndex]['posts'].map(function(d, i){
-
             thisData.push(d.postSentimentScore);
+            console.log(d.postSentimentScore);
         })
 
         this.displayData = thisData;
@@ -89,10 +89,10 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
     this.x = d3.scale.linear()
         .domain([d3.min(this.displayData), d3.max(this.displayData)])
         .range([0, that.width]);
-
+    console.log(this.displayData)
     // generate the histogram
     this.histogramData = d3.layout.histogram()
-                            .bins(that.x.ticks(20))
+                        
                             (this.displayData);
 
     this.y = d3.scale.linear()
