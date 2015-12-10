@@ -72,6 +72,25 @@ body{
 	width: 300;
 }
 
+#companyAge{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
+#companySize{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
+#companyFunding{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
+
 #companyTitle{
 	/*see "#backButton"*/
 	margin-top: -2%;

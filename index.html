@@ -50,6 +50,13 @@
 		<div id="companyPage">				
 			<a class="waves-effect waves-light btn" id="backButton">back to home</a>
             <div id="companyTitle"> Title </div>
+            <div class = "row" style="display: flex; flex-direction: row;">
+
+            	<div class = "col s4" id="companyAge"> Stats </div>
+        	  	<div class = "col s4" id="companySize"> Stats </div>
+        	   	<div class = "col s4" id="companyFunding"> Stats </div>
+
+            </div> 
 
 	        <div class="row">
 				<div class="card col s8 blue-grey darken-1 z-depth-5" id="companyCard">
@@ -153,6 +160,8 @@
 						var companyScoreList = [];
 						var companyPostsList = [];
 
+						console.log(fundingData);
+
 						// map through data to create lists
 						data.map(function(d, i){
 							companyNameList.push(d.name);
@@ -245,6 +254,22 @@
 			            $(MyEventHandler).bind("selectCompany", function(event, company){
 
 			            	breakdown_vis.onSelectionChange(company);
+
+			            	// find the stats for this company and update the page
+			            	for (comp in fundingData){
+
+			            		iterComp = fundingData[comp];
+
+			            		// if we've found the company, then update the page
+			            		if(iterComp['company'] == company){
+
+			            			console.log('ay');
+
+			            			d3.select('#companyAge').html('Age: ' + iterComp.age);
+			            			d3.select('#companySize').html('Size: ' + iterComp['size']);
+			            			d3.select('#companyFunding').html('Most Recent Funding: ' + iterComp.funding);
+			            		}
+			            	}
 
 			            	// find and add the top posts for this company
 							addPosts(dummyData);
