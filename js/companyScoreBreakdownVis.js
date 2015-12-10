@@ -90,7 +90,7 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
 
     // make sure that we have some sort of graph even if we just have scores of 0
     if(xmax == 0){
-        
+
         xmax = 1;
     }
 
@@ -156,8 +156,7 @@ CompanyScoreBreakdownVis.prototype.onSelectionChange= function (company){
         this.compareCompany = "None";
 
         // add the word cloud
-        var wordCloud = "<img src='../img/" + company + ".png' height='280' width='500'>";
-        $('#wordCloudHere').append(wordCloud);
+        $('#wordCloudImage').attr("src", "../img/"+company+".png");
     }
 
     // update viz to reflect data
