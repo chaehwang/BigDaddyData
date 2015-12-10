@@ -95,65 +95,58 @@
 	</div>
 
 	<!-- div for process content, centered in wrapper -->
-	<div class = 'center-align' id = 'processWrapper' style="display:none;">
-		<div class="row">
-	    <div class="col s12 m9 l10">
-		<div id="introduction" class="section scrollspy">
-			<p>Content </p>
-		</div>
+	<div id = 'processWrapper' style="display:none;">
+		<div class="row" style="display: inline-flex">
+		    <div class="col s12 m9 l10" style="width: 100%;">
 
-		<div id="structure" class="section scrollspy">
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-			<p>Test </p>
-		</div>
+				<div id="introduction" class="section scrollspy" style="height: 400px; width: 100%">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+							
+							<div class="card-content">
+								<span class="card-title"> Introduction </span>
+								sup boys
+							</div>
+					</div>
+				</div>
 
-	      <div id="initialization" class="section scrollspy">
-	        <p>Content </p>
-	      </div>
-	    </div>
-	    <div class="col hide-on-small-only m3 l2" id="navigation">
-	      <ul class="section table-of-contents">
-	        <li><a href="#introduction">Introduction</a></li>
-	        <li><a href="#structure">Structure</a></li>
-	        <li><a href="#initialization">Intialization</a></li>
-	      </ul>
-	    </div>
-	  </div>
+				<div id="structure" class="section scrollspy" style="height: 400px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+							
+							<div class="card-content">
+								<span class="card-title"> Introduction </span>
+								sup boys
+							</div>
+					</div>
+				</div>
+
+				<div id="initialization" class="section scrollspy" style="height: 400px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+							
+							<div class="card-content">
+								<span class="card-title"> Introduction </span>
+								sup boys
+							</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col hide-on-small-only m3 l2" id="navigation">
+				<ul class="section table-of-contents">
+					<li><a href="#introduction">Introduction</a></li>
+					<li><a href="#structure">Structure</a></li>
+					<li><a href="#initialization">Intialization</a></li>
+				</ul>
+			</div>
+		</div>
 	</div>
 
 	<script>
 		$(function(){
+
+
+            // initialize scrollSpy for process
+            $('.scrollspy').scrollSpy();
+
 
 			// load the required data
 			d3.csv("company_with_prediction_range.csv", function(data){
@@ -192,52 +185,6 @@
 
 						})
 
-						// dummy data
-						var sentimentData = [{'company': 'Facebook', 'score': 99}, 
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17},
-									{'company': 'Google', 'score': 75}, 
-									{'company': 'Dropbox', 'score': 24}, 
-									{'company': 'Airbnb', 'score': 17}, 
-									{'company': 'Uber', 'score': 51}, ];
-
-						var companyData = [{'postDate': '2015-05', 'postSentimentScore': 99}, 
-											{'postDate': '2015-06', 'postSentimentScore': 75},
-											{'postDate': '2015-07', 'postSentimentScore': 24},
-											{'postDate': '2015-08', 'postSentimentScore': 47},
-											{'postDate': '2015-09', 'postSentimentScore': 89} ];
-
 						var metaData = {};
 
 						// Create an eventHandler
@@ -247,9 +194,6 @@
 						var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
 
 						var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
-
-			            // initialize scrollSpy for process
-			            $('.scrollspy').scrollSpy();
 
 			            /******************************
 						**

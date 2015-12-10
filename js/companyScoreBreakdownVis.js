@@ -108,8 +108,6 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
                             .bins(that.x.ticks(10))
                             (this.displayData);
 
-    console.log(this.histogramData);
-
     this.y = d3.scale.linear()
                 .domain([0, d3.max(that.histogramData, function(d){ return d.y; })])
                 .range([that.height/1.2, 0]);

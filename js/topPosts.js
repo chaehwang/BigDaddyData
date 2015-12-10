@@ -31,7 +31,10 @@ function addPosts(postsList, company){
 	postsList = sortPosts(postsList);
 
 	// cutoff to top 5 posts
-	postsList.length = 5;
+	topPostList = [];
+	for(var i = 0; i < 5; i++){
+		topPostList.push(postsList[i]);
+	}
 
 	// find the parent element to append divs to
 	var parent = $('#topPostsContent');
@@ -43,7 +46,7 @@ function addPosts(postsList, company){
 	parent.append("<span class='card-title' id='postsTitle'>Top Posts</span>");
 
 	// construct the div for each post
-	postsList.map(function(d, i){
+	topPostList.map(function(d, i){
 
 		// process the text to escape characters
 		var escapedText = d.body.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
