@@ -36,6 +36,8 @@ CompanyScoreBreakdownVis.prototype.initVis = function(){
 
     this.svg = this.parentElement.select("svg");
 
+    this.colorScale = d3.scale.category20();
+
     // constructs SVG layout
     this.svg = this.parentElement.append("svg")
         .attr("width", this.width + this.margin.left + this.margin.right)
@@ -58,14 +60,11 @@ CompanyScoreBreakdownVis.prototype.wrangleData = function(){
     var thisData = [];
     var thisIndex = this.companyList.indexOf(this.company);
 
-    console.log(this.company);
-
     if(thisIndex != -1){
 
         // map over the posts for this company
         this.data[thisIndex]['posts'].map(function(d, i){
             thisData.push(d.postSentimentScore);
-            console.log(d.postSentimentScore);
         })
 
         this.displayData = thisData;
@@ -88,13 +87,25 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
     this.svg.selectAll("g").remove()
 	var that = this;
 
+    var xmax = Math.max(-d3.min(this.displayData), d3.max(this.displayData));
+
+    // make sure that we have some sort of graph even if we just have scores of 0
+    if(xmax == 0){
+
+        xmax = 1;
+    }
+
+    // adjust xmax for scaling purposes
+    xmax += 0.5;
+
     this.x = d3.scale.linear()
-        .domain([d3.min(this.displayData), d3.max(this.displayData)])
-        .range([0, that.width]);
-    console.log(this.displayData)
+        .domain([-xmax, xmax])
+        .range([0, that.width])
+        .nice();
+
     // generate the histogram
     this.histogramData = d3.layout.histogram()
-                        
+                            .bins(that.x.ticks(10))
                             (this.displayData);
 
     console.log(this.histogramData);
@@ -116,12 +127,14 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
 
     bar.append("rect")
         .attr("x", 1)
-        .attr("width", 20)
+        .attr("width", that.x(that.histogramData[0].x + that.histogramData[0].dx) - 1)
         .attr("height", function(d){ return that.height/1.2 - that.y(d.y); })
+        .style('fill', this.colorScale)
 
     bar.append("text")
         .attr("dy", "0em") 
-        .attr("dx", ".6em")
+        .attr("y", -10)
+        .attr("x", that.x(that.histogramData[0].x + that.histogramData[0].dx)/2)
         .attr("text-anchor", "middle")
         .text(function(d){ if(d.y!= 0) return d.y; })
 
@@ -150,8 +163,7 @@ CompanyScoreBreakdownVis.prototype.onSelectionChange= function (company){
         this.compareCompany = "None";
 
         // add the word cloud
-        var wordCloud = "<img src='../img/" + company + ".png' height='280' width='500'>";
-        $('#wordCloudHere').append(wordCloud);
+        $('#wordCloudImage').attr("src", "../img/"+company+".png");
     }
 
     // update viz to reflect data
