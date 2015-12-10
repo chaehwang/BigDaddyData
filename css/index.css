@@ -78,6 +78,19 @@ body{
 	font-size: 40px;
 }
 
+#processWrapper{
+	flex: 1;
+	height: 1200px;
+    padding-top: 3%;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+}
+
 #vizWrapper{
 	flex: 1;
 	height: 1200px;
@@ -89,6 +102,12 @@ body{
     display: -webkit-flex;
     display: flex;
     justify-content: center;
+}
+
+#wordCloudCard{
+	margin-top: 3%;
+	height: 430;
+	width: 800;
 }
 
 @keyframes leftMoveOut {

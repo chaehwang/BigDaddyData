@@ -36,7 +36,7 @@
 		<h4> Select a button above to get started. </h4>
 	</div>
 
-	<!-- div for main content, centered in wrapper -->
+	<!-- div for viz content, centered in wrapper -->
 	<div class = 'center-align' id = "vizWrapper" style="display:none;">
         
 		<div class="card blue-grey darken-1 barvis z-depth-2" id="sentimentBarGraph">
@@ -76,10 +76,17 @@
 				</div>	
 			</div>
 
+			<div class = "row">
+				
+				<div class="card col s8 blue-grey darken-1 z-depth-5 valign-wrapper center-align" id="wordCloudCard">
+				</div>
+
+			</div>
 
 		</div>
 	</div>
 
+	<!-- div for process content, centered in wrapper -->
 	<div class = 'center-align' id = 'processWrapper' style="display:none;">
 		sup boys
 	</div>
@@ -128,10 +135,10 @@
 						{'company': 'Uber', 'score': 51}, ];
 
 			var companyData = [{'postDate': '2015-05', 'postSentimentScore': 99}, 
-			{'postDate': '2015-06', 'postSentimentScore': 75},
-			{'postDate': '2015-07', 'postSentimentScore': 24},
-			{'postDate': '2015-08', 'postSentimentScore': 47},
-			{'postDate': '2015-09', 'postSentimentScore': 89} ];
+								{'postDate': '2015-06', 'postSentimentScore': 75},
+								{'postDate': '2015-07', 'postSentimentScore': 24},
+								{'postDate': '2015-08', 'postSentimentScore': 47},
+								{'postDate': '2015-09', 'postSentimentScore': 89} ];
 
 			var metaData = {};
 
@@ -221,7 +228,7 @@
             $('#companyCompareSelect').on('change', function(){
 
             	var selectedCompany = $(this).val();
-            	company_compare_vis.onSelectionChange(selectedCompany);
+            	company_compare_vis.onCompareChange(selectedCompany);
             })
 		})
 	</script>

@@ -106,9 +106,7 @@ CompanyCompareVis.prototype.wrangleData = function(){
 
 
     // TODO: some js to get the name of the company selected so our data is dynamic
-    var selectedCompany = $('#companyCompareSelect').val();
-
-    console.log(selectedCompany);
+    var selectedCompany = this.compareCompany;
 
     if(selectedCompany == "None"){
         this.compareData = [];
@@ -204,12 +202,31 @@ CompanyCompareVis.prototype.updateVis = function(){
  */
 CompanyCompareVis.prototype.onSelectionChange= function (company){
 
+
     // update company if changed
-    if(typeof company !== "undefined"){
+    if(company != ""){
         // update base company
         this.company = company;
         d3.select('#companyTitle').html(company);
+
+        // add the word cloud
+        var wordCloud = "<img src='../img/" + company + ".png' class='valign' height='320' width='520'>";
+        $('#wordCloudCard').html(wordCloud);
     }
+
+    // update viz to reflect data
+    this.wrangleData();
+
+
+
+
+}
+
+CompanyCompareVis.prototype.onCompareChange= function (company){
+
+
+    // update compare company if changed
+    this.compareCompany = company;
 
     // update data to add (or remove) comparison
     this.wrangleData();
