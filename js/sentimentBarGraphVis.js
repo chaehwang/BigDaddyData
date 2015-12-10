@@ -96,6 +96,8 @@ SentimentBarVis.prototype.wrangleData = function(){
     	that.scoreList.push(d.score);
     })
 
+    console.log(this.companyList);
+
     // set displayData to be scoreList since that's going to determine our bar values
     this.displayData = this.scoreList;
 
@@ -114,7 +116,10 @@ SentimentBarVis.prototype.updateVis = function(){
 	var barHeight = (this.height/2/(this.displayData.length)) + 1;
 
     // set domains for the scales -- x is score, y is company
-    this.x.domain([0, d3.max(this.displayData)]);
+
+    console.log(this.displayData);
+
+    this.x.domain(d3.extent(this.displayData, function(d) {return d; }));
 	this.y.domain(d3.range(this.displayData.length));
 
     // updates axis
@@ -196,7 +201,7 @@ SentimentBarVis.prototype.updateVis = function(){
 					    .data(this.displayData)
 					    .transition()
 					    .duration(1000) 
-					    .attr("width", function(d) {return that.x(d); });
+					    .attr("width", function(d, i) {console.log(that.companyList[i] + " " + that.x(d)); return that.x(d); });
 
 	// transition text
 	var transitext = d3.select('#bars')
