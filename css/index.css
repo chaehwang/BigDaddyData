@@ -91,6 +91,11 @@ body{
     justify-content: center;
 }
 
+#navigation{
+	margin-left: 5%;
+	position: fixed;
+}
+
 #vizWrapper{
 	flex: 1;
 	height: 1200px;
