@@ -55,7 +55,7 @@ body{
 	margin-left: 16%;
 }
 
-#companyCompareVis{
+#companyScoreBreakdownVis{
 
 	margin-top: 2%;
 }
@@ -71,6 +71,25 @@ body{
 	height: 430;
 	width: 300;
 }
+
+#companyAge{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
+#companySize{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
+#companyFunding{
+
+	margin-top: 2%;
+	font-size: 28px;
+}
+
 
 #companyTitle{
 	/*see "#backButton"*/
@@ -111,8 +130,12 @@ body{
 
 #wordCloudCard{
 	margin-top: 3%;
-	height: 430;
+	height: 470;
 	width: 800;
+}
+
+#wordCloudTitle{
+	margin-top: 3%;
 }
 
 @keyframes leftMoveOut {

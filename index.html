@@ -18,8 +18,8 @@
 	<!-- include scripts for viz -->
 	<script src="js/sentimentBarGraphVis.js"></script>
 	<script src="js/companyTrendVis.js"></script>
+	<script src="js/companyScoreBreakdownVis.js"></script>
 	<script src="js/topPosts.js"></script>
-	<script src="js/companyCompareVis.js"></script>
 
 </head>
 <body>
@@ -28,8 +28,8 @@
 	</div>
 
 	<div class='center-align'>
-		<a class="waves-effect waves-light btn" id="vizButton">Visualize</a>
-		<a class="waves-effect waves-light btn" id="processButton" style="margin-left: 2%;">Process</a>
+		<a class="waves-effect btn white black-text" id="vizButton">Visualize</a>
+		<a class="waves-effect btn white black-text" id="processButton" style="margin-left: 2%;">Process</a>
 	</div>
 
 	<div class='center-align' id="blankDisplayText" style="display: block;">
@@ -39,7 +39,7 @@
 	<!-- div for viz content, centered in wrapper -->
 	<div class = 'center-align' id = "vizWrapper" style="display:none;">
         
-		<div class="card blue-grey darken-1 barvis z-depth-2" id="sentimentBarGraph">
+		<div class="card white darken-1 barvis z-depth-2" id="sentimentBarGraph">
 			<div class = "card-content">
 				<span class="card-title">Sentiment Analysis Bar Graph</span>
 				<div id = "content"></div>
@@ -48,37 +48,42 @@
 
 		<!-- card for specific company content -->
 		<div id="companyPage">				
-			<a class="waves-effect waves-light btn" id="backButton">back to home</a>
+			<a class="waves-effect btn white black-text" id="backButton">back to home</a>
             <div id="companyTitle"> Title </div>
+            <div class = "row" style="display: flex; flex-direction: row;">
+
+            	<div class = "col s4" id="companyAge"> Stats </div>
+        	  	<div class = "col s4" id="companySize"> Stats </div>
+        	   	<div class = "col s4" id="companyFunding"> Stats </div>
+
+            </div> 
 
 	        <div class="row">
-				<div class="card col s8 blue-grey darken-1 z-depth-5" id="companyCard">
-					<span class="card-title">Sentiment Trends</span>
+				<div class="card col s8 white darken-1 z-depth-5" id="companyCard">
 
 					<div class="card-content">
-						<div class="input-field col s4">
-							<select id="companyCompareSelect">
-								<option value="None" selected>None</option>
-								<option value="1">Option 1</option>
-								<option value="2">Option 2</option>
-								<option value="3">Option 3</option>
-							</select>
-							<label>Select a company to compare trends</label>
-						</div>
+						<span class="card-title">Sentiment Trends</span>
+						<div id="companyScoreBreakdownVis"></div>
 
-						<div id="companyCompareVis"></div>
 					</div>
 				</div>	
 
 				<!-- card for the top posts -->
-				<div class="col s3 card blue-grey darken-1 z-depth-5" id="companyPosts">
-					<span class="card-title" id='postsTitle'>Top Posts</span>
+				<div class="col s3 card white darken-1 z-depth-5" id="companyPosts">
+
+					<div class="card-content" id="topPostsContent">
+						<span class="card-title">Sentiment Trends</span>
+
+					</div>
 				</div>	
 			</div>
 
 			<div class = "row">
-				
-				<div class="card col s8 blue-grey darken-1 z-depth-5 valign-wrapper center-align" id="wordCloudCard">
+				<div class="card col s8 white darken-1 z-depth-5 center-align" id="wordCloudCard">
+					
+					<div class="card-content" id="wordCloudHere">
+						<span class="card-title" id="wordCloudTitle"> Most Commonly Used Words </span>
+					</div>
 				</div>
 
 			</div>
@@ -147,169 +152,194 @@
 	<script>
 		$(function(){
 
+			// load the required data
 			d3.csv("company_with_prediction_range.csv", function(data){
 
 				d3.csv("comments1_with_sentiments.csv", function(commentsData){
 
-					console.log(commentsData);
+					d3.csv("funding_data.csv", function(fundingData){
 
-					var metaData = {};
+						// companyNameList is just the names
+						// companyScoreList is a list of objects with the scores
+						// companyPostsList will include the companies and all the posts
+						var companyNameList = [];
+						var companyScoreList = [];
+						var companyPostsList = [];
 
-					// companyScoreList is a list of objects with the scores
-					var companyScoreList = [];
+						console.log(commentsData);
 
-					// map through data to create lists
-					data.map(function(d, i){
+						// map through data to create lists
+						data.map(function(d, i){
+							companyNameList.push(d.name);
+							companyScoreList.push({'company': d.name, 'score': parseFloat(d.weighted_predict_range)});
+							companyPostsList.push({'company': d.name, 'posts':[]})
+						})
 
-						companyScoreList.push({'company': d.name, 'score': parseFloat(d.weighted_predict_range)});
+						// parse through commentsData
+						commentsData.map(function(d, i){
+
+							// find the index of the object for this company
+							var companyIndex = companyNameList.indexOf(d.company);
+
+							if(companyIndex != -1){
+
+								companyPostsList[companyIndex]['posts'].push({
+									'body': d["body"], 
+									'postSentimentScore': parseFloat(d["score"])*parseFloat(d["Answer1"]),
+								})
+							}
+
+						})
+
+						// dummy data
+						var sentimentData = [{'company': 'Facebook', 'score': 99}, 
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17},
+									{'company': 'Google', 'score': 75}, 
+									{'company': 'Dropbox', 'score': 24}, 
+									{'company': 'Airbnb', 'score': 17}, 
+									{'company': 'Uber', 'score': 51}, ];
+
+						var companyData = [{'postDate': '2015-05', 'postSentimentScore': 99}, 
+											{'postDate': '2015-06', 'postSentimentScore': 75},
+											{'postDate': '2015-07', 'postSentimentScore': 24},
+											{'postDate': '2015-08', 'postSentimentScore': 47},
+											{'postDate': '2015-09', 'postSentimentScore': 89} ];
+
+						var metaData = {};
+
+						// Create an eventHandler
+			            var MyEventHandler = new Object();
+
+			            // instantiate vis objects
+						var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
+
+						var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
+
+			            // initialize scrollSpy for process
+			            $('.scrollspy').scrollSpy();
+
+			            /******************************
+						**
+						** EVENT HANDLERS BELOW
+						**
+						*******************************/
+
+			            // listener for a specific company selected from graph
+			            $(MyEventHandler).bind("selectCompany", function(event, company){
+
+			            	breakdown_vis.onSelectionChange(company);
+
+			            	// find the stats for this company and update the page
+			            	for (comp in fundingData){
+
+			            		iterComp = fundingData[comp];
+
+			            		// if we've found the company, then update the page
+			            		if(iterComp['company'] == company){
+
+			            			d3.select('#companyAge').html('Age: ' + iterComp.age);
+			            			d3.select('#companySize').html('Size: ' + iterComp['size']);
+			            			d3.select('#companyFunding').html('Most Recent Funding: ' + iterComp.funding);
+			            		}
+			            	}
+
+			            	// find and add the top posts for this company
+							addPosts(companyPostsList, company);
+			            })
+
+			            $('#backButton').on('click', function(){
+
+							$('#sentimentBarGraph').toggleClass('transitionLeftOut');
+							$('#companyPage').toggleClass('transitionRightIn');
+
+			            });
+
+			            // toggle navigation action for the viz
+			            $('#vizButton').on('click', function(){
+
+			            	// only do action if button is not disabled
+			            	if(!$(this).hasClass('disabled')){
+
+				            	// make sure displayText is hidden
+				            	d3.select('#blankDisplayText').style("display", "none");
+
+				            	// if processWrapper is open, close it
+				            	if($('#processWrapper').css('display') != 'none'){
+				            		d3.select('#processWrapper').style('display', 'none');
+				            	}
+
+				            	// open the vizWrapper
+								$('#vizWrapper').toggle();
+
+								// make this button disabled
+								$('#vizButton').addClass('disabled');
+
+								// free other button
+								$('#processButton').removeClass('disabled');
+			            	}
+			            });
+
+			            // toggle navigation action for the process
+			            $('#processButton').on('click', function(){
+
+			            	if(!$(this).hasClass('disabled')){
+
+				            	// make sure displayText is hidden
+				            	d3.select('#blankDisplayText').style("display", "none");
+
+				            	// if viz is open, close it
+				            	if($('#vizWrapper').css('display') != 'none'){
+				            		d3.select('#vizWrapper').style('display', 'none');
+				            	}
+
+				            	// open the processWrapper
+								$('#processWrapper').toggle();
+
+								// make this button disabled
+								$('#processButton').addClass('disabled');
+
+								// free other button
+								$('#vizButton').removeClass('disabled');
+			            	}
+			            });
+
 					})
-
-					var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
-
 
 				})
 
 			});
-
-			// dummy data
-			var sentimentData = [{'company': 'Facebook', 'score': 99}, 
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17},
-						{'company': 'Google', 'score': 75}, 
-						{'company': 'Dropbox', 'score': 24}, 
-						{'company': 'Airbnb', 'score': 17}, 
-						{'company': 'Uber', 'score': 51}, ];
-
-			var companyData = [{'postDate': '2015-05', 'postSentimentScore': 99}, 
-								{'postDate': '2015-06', 'postSentimentScore': 75},
-								{'postDate': '2015-07', 'postSentimentScore': 24},
-								{'postDate': '2015-08', 'postSentimentScore': 47},
-								{'postDate': '2015-09', 'postSentimentScore': 89} ];
-
-			var metaData = {};
-
-			// Create an eventHandler
-            var MyEventHandler = new Object();
-
-            // instantiate vis objects
-            // var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), sentimentData, metaData, MyEventHandler);
-            var company_trend_vis = new CompanyTrendVis(d3.select("#companyTrendVis"), companyData, metaData, MyEventHandler);
-            var company_compare_vis = new CompanyCompareVis(d3.select('#companyCompareVis'), companyData, metaData, MyEventHandler);
-
-            // initialize the dropdown page for company compare
-            $('select').material_select();
-
-            // initialize scrollSpy for process
-            $('.scrollspy').scrollSpy();
-
-            /******************************
-			**
-			** EVENT HANDLERS BELOW
-			**
-			*******************************/
-
-            // listener for a specific company selected from graph
-            $(MyEventHandler).bind("selectCompany", function(event, company){
-
-            	company_compare_vis.onSelectionChange(company);
-
-            	// find and add the top posts for this company
-				addPosts(dummyData);
-            })
-
-            $('#backButton').on('click', function(){
-
-				$('#sentimentBarGraph').toggleClass('transitionLeftOut');
-				$('#companyPage').toggleClass('transitionRightIn');
-
-            });
-
-            // toggle navigation action for the viz
-            $('#vizButton').on('click', function(){
-
-            	// only do action if button is not disabled
-            	if(!$(this).hasClass('disabled')){
-
-	            	// make sure displayText is hidden
-	            	d3.select('#blankDisplayText').style("display", "none");
-
-	            	// if processWrapper is open, close it
-	            	if($('#processWrapper').css('display') != 'none'){
-	            		d3.select('#processWrapper').style('display', 'none');
-	            	}
-
-	            	// open the vizWrapper
-					$('#vizWrapper').toggle();
-
-					// make this button disabled
-					$('#vizButton').addClass('disabled');
-
-					// free other button
-					$('#processButton').removeClass('disabled');
-            	}
-            });
-
-            // toggle navigation action for the process
-            $('#processButton').on('click', function(){
-
-            	if(!$(this).hasClass('disabled')){
-
-	            	// make sure displayText is hidden
-	            	d3.select('#blankDisplayText').style("display", "none");
-
-	            	// if viz is open, close it
-	            	if($('#vizWrapper').css('display') != 'none'){
-	            		d3.select('#vizWrapper').style('display', 'none');
-	            	}
-
-	            	// open the processWrapper
-					$('#processWrapper').toggle();
-
-					// make this button disabled
-					$('#processButton').addClass('disabled');
-
-					// free other button
-					$('#vizButton').removeClass('disabled');
-            	}
-            });
-
-            // select event handler
-            $('#companyCompareSelect').on('change', function(){
-
-            	var selectedCompany = $(this).val();
-            	company_compare_vis.onCompareChange(selectedCompany);
-            })
 		})
 	</script>
 </body>
