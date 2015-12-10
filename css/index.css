@@ -2,7 +2,6 @@ body{
 	height: 100%;
 	background-color: #f2f2f2;
 	font-family: 'Helvetica', sans-serif;
-	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
 .barvis{
@@ -12,6 +11,14 @@ body{
 
 .barCard{
 	width: 100%;
+}
+
+.input-field label{
+	color: white;
+}
+
+.hidden{
+	display: none;
 }
 
 .row{
@@ -27,13 +34,9 @@ body{
 	animation: rightMoveIn .6s ease forwards;
 }
 
-.input-field label{
-	color: white;
-}
-
 #backButton{
 	/*i know, i know...*/
-	margin-top: -10%;
+	margin-top: -7%;
 }
 
 #bars{
@@ -71,14 +74,14 @@ body{
 
 #companyTitle{
 	/*see "#backButton"*/
-	margin-top: -5%;
+	margin-top: -2%;
 	font-size: 40px;
 }
 
-#wrapper{
+#vizWrapper{
 	flex: 1;
 	height: 1200px;
-    padding-top: 6%;
+    padding-top: 3%;
     margin: 0;
     display: -webkit-box;
     display: -moz-box;

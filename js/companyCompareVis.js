@@ -98,7 +98,7 @@ CompanyCompareVis.prototype.wrangleData = function(){
     // create data parser
     var parseDate = d3.time.format("%Y-%m");
 
-    var compareData = [{'postDate': '2015-05', 'postSentimentScore': 20}, 
+    var testCompare = [{'postDate': '2015-05', 'postSentimentScore': 20}, 
                         {'postDate': '2015-06', 'postSentimentScore': 40},
                         {'postDate': '2015-07', 'postSentimentScore': 60},
                         {'postDate': '2015-08', 'postSentimentScore': 80},
@@ -106,7 +106,17 @@ CompanyCompareVis.prototype.wrangleData = function(){
 
 
     // TODO: some js to get the name of the company selected so our data is dynamic
-    this.compareData = compareData;
+    var selectedCompany = $('#companyCompareSelect').val();
+
+    console.log(selectedCompany);
+
+    if(selectedCompany == "None"){
+        this.compareData = [];
+    }
+    else{
+        this.compareData = testCompare;    
+    }
+    
 
     // fill up companyList and compareList
     this.data.map(function(d, i){
@@ -123,6 +133,8 @@ CompanyCompareVis.prototype.wrangleData = function(){
     // set displayData to be scoreList since that's going to determine our bar values
     this.displayData = companyList;
     this.compareData = compareList;
+
+    this.updateVis();
 
 }
 
@@ -147,17 +159,12 @@ CompanyCompareVis.prototype.updateVis = function(){
     this.svg.select(".y.axis")
         .call(this.yAxis)
 
-	 // Add the valueline path.
+	 // Add the original valueline path.
     this.svg.append("path")
         .attr("class", "line-original")
         .attr("d", that.valueline(that.displayData));
 
-    // Add the compare path
-    this.svg.append("path")
-        .attr("class", "line-compare")
-        .attr("d", that.valueline(that.compareData));
-
-    // Add the scatterplot
+    // Add the original scatterplot
     this.svg.selectAll("dot")
         .data(this.displayData)
       .enter().append("circle")
@@ -165,12 +172,28 @@ CompanyCompareVis.prototype.updateVis = function(){
         .attr("cx", function(d) { return that.x(d.date); })
         .attr("cy", function(d) { return that.y(d.score); });
 
-    this.svg.selectAll("dot")
-        .data(this.compareData)
-      .enter().append("circle")
-        .attr("r", 3.5)
-        .attr("cx", function(d) { return that.x(d.date); })
-        .attr("cy", function(d) { return that.y(d.score); });
+    // if compare, then add that -- else, remove
+    if(this.compareData.length > 0){
+        
+        // Add the compare path
+        this.svg.append("path")
+            .attr("class", "line-compare")
+            .attr("d", that.valueline(that.compareData));
+
+        this.svg.selectAll("dot")
+            .data(this.compareData)
+          .enter().append("circle")
+            .attr("class", "compareDot")
+            .attr("r", 3.5)
+            .attr("cx", function(d) { return that.x(d.date); })
+            .attr("cy", function(d) { return that.y(d.score); });        
+    }
+
+    else{
+        d3.selectAll('.line-compare').remove();
+        d3.selectAll('.compareDot').remove();
+    }
+
 }
 
 /**
@@ -181,8 +204,15 @@ CompanyCompareVis.prototype.updateVis = function(){
  */
 CompanyCompareVis.prototype.onSelectionChange= function (company){
 
-    // update company value and re-wrangle data
-    this.company = company;
+    // update company if changed
+    if(typeof company !== "undefined"){
+        // update base company
+        this.company = company;
+        d3.select('#companyTitle').html(company);
+    }
+
+    // update data to add (or remove) comparison
+    this.wrangleData();
 
 
 }
