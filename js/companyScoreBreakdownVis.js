@@ -86,13 +86,21 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
     this.svg.selectAll("g").remove()
 	var that = this;
 
+    var xmax = Math.max(-d3.min(this.displayData), d3.max(this.displayData));
+
+    // make sure that we have some sort of graph even if we just have scores of 0
+    if(xmax == 0){
+        
+        xmax = 1;
+    }
+
     this.x = d3.scale.linear()
-        .domain([d3.min(this.displayData), d3.max(this.displayData)])
+        .domain([-xmax, xmax])
         .range([0, that.width]);
-    console.log(this.displayData)
+
     // generate the histogram
     this.histogramData = d3.layout.histogram()
-                        
+                            // .bins(that.x.ticks(10))
                             (this.displayData);
 
     this.y = d3.scale.linear()
@@ -118,6 +126,8 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
     bar.append("text")
         .attr("dy", "0em") 
         .attr("dx", ".6em")
+        // .attr("y", 6)
+        // .attr("x", that.x(that.histogramData[0].dx)/2)
         .attr("text-anchor", "middle")
         .text(function(d){ if(d.y!= 0) return d.y; })
 
