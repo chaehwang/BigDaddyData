@@ -130,12 +130,13 @@ SentimentBarVis.prototype.updateVis = function(){
 						// .attr('xlink:href', '')
 						.append('rect')
 						.attr('height', barHeight)
+						.attr('id', 'indBar')
 						.attr({'x':0, 'y':function(d,i){ return that.y(i)}})
 						.style('fill', this.colorScale)
 						.attr('width', 0)
 						.on('mouseover', function(d, i){
 
-							d3.selectAll('rect')
+							d3.selectAll('#indBar')
 								.style("fill", function(d2, i2){
 
 									if(i2 == i){
@@ -164,7 +165,7 @@ SentimentBarVis.prototype.updateVis = function(){
 								})
 						})
 						.on('mouseout', function(){
-							d3.selectAll('rect')
+							d3.selectAll('#indBar')
 								.style("fill", that.colorScale);
 
 							d3.selectAll('#companyLabel')

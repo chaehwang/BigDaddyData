@@ -36,6 +36,8 @@ CompanyScoreBreakdownVis.prototype.initVis = function(){
 
     this.svg = this.parentElement.select("svg");
 
+    this.colorScale = d3.scale.category20();
+
     // constructs SVG layout
     this.svg = this.parentElement.append("svg")
         .attr("width", this.width + this.margin.left + this.margin.right)
@@ -127,6 +129,7 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
         .attr("x", 1)
         .attr("width", that.x(that.histogramData[0].x + that.histogramData[0].dx) - 1)
         .attr("height", function(d){ return that.height/1.2 - that.y(d.y); })
+        .style('fill', this.colorScale)
 
     bar.append("text")
         .attr("dy", "0em") 
