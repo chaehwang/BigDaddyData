@@ -29,7 +29,7 @@ function addPosts(postsList){
 	postsList = sortPosts(postsList);
 
 	// find the parent element to append divs to
-	var parent = $('#companyPosts');
+	var parent = $('#topPostsContent');
 
 	// remove previous posts that might be there from other companies
 	parent.empty();

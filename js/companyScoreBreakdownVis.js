@@ -148,8 +148,8 @@ CompanyScoreBreakdownVis.prototype.onSelectionChange= function (company){
         this.compareCompany = "None";
 
         // add the word cloud
-        var wordCloud = "<img src='../img/" + company + ".png' class='valign' height='320' width='520'>";
-        $('#wordCloudCard').html(wordCloud);
+        var wordCloud = "<img src='../img/" + company + ".png' height='280' width='500'>";
+        $('#wordCloudHere').append(wordCloud);
     }
 
     // update viz to reflect data

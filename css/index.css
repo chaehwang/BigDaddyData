@@ -130,8 +130,12 @@ body{
 
 #wordCloudCard{
 	margin-top: 3%;
-	height: 430;
+	height: 470;
 	width: 800;
+}
+
+#wordCloudTitle{
+	margin-top: 3%;
 }
 
 @keyframes leftMoveOut {
