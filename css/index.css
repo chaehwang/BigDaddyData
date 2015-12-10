@@ -2,11 +2,9 @@ body{
 	height: 100%;
 	background-color: #f2f2f2;
 	font-family: 'Helvetica', sans-serif;
-	display: flex;             /* NEW, Spec - Opera 12.1, Firefox 20+ */
 }
 
 .barvis{
-	margin-top: 5%;
 	height: 900px;
 	width: 60%;
 }
@@ -15,21 +13,30 @@ body{
 	width: 100%;
 }
 
+.input-field label{
+	color: white;
+}
+
+.hidden{
+	display: none;
+}
+
 .row{
 	display: inline;
 }
 
 .transitionLeftOut{
 
-	animation: leftMoveOut 1s ease forwards;
+	animation: leftMoveOut .6s ease forwards;
 }
 
 .transitionRightIn{
-	animation: rightMoveIn 1s ease forwards;
+	animation: rightMoveIn .6s ease forwards;
 }
 
-.input-field label{
-	color: white;
+#backButton{
+	/*i know, i know...*/
+	margin-top: -7%;
 }
 
 #bars{
@@ -38,7 +45,7 @@ body{
 }
 
 #companyCard{
-	margin-top: 5%;
+	margin-top: 3%;
 	height: 430;
 	width: 800;
 }
@@ -59,24 +66,53 @@ body{
 }
 
 #companyPosts{
-	margin-top: 5%;
+	margin-top: 3%;
 	margin-left: 3px;
 	height: 430;
 	width: 300;
 }
 
-#wrapper{
+#companyTitle{
+	/*see "#backButton"*/
+	margin-top: -2%;
+	font-size: 40px;
+}
+
+#processWrapper{
 	flex: 1;
 	height: 1200px;
-    padding: 0;
+    padding-top: 3%;
     margin: 0;
     display: -webkit-box;
     display: -moz-box;
     display: -ms-flexbox;
     display: -webkit-flex;
     display: flex;
-    align-items: center;
     justify-content: center;
+}
+
+#navigation{
+	margin-left: 5%;
+	position: fixed;
+}
+
+#vizWrapper{
+	flex: 1;
+	height: 1200px;
+    padding-top: 3%;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    justify-content: center;
+}
+
+#wordCloudCard{
+	margin-top: 3%;
+	height: 430;
+	width: 800;
 }
 
 @keyframes leftMoveOut {

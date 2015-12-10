@@ -25,7 +25,7 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
     // define all "constants" here
     this.margin = {top: 20, right: 40, bottom: 30, left: 30},
     this.width = 720 - this.margin.left - this.margin.right,
-    this.height = 1400 - this.margin.top - this.margin.bottom;
+    this.height = 1000 - this.margin.top - this.margin.bottom;
 
     this.initVis();
 }
@@ -52,7 +52,7 @@ SentimentBarVis.prototype.initVis = function(){
 					.range([0,600]);
 
 	this.y = d3.scale.ordinal()
-					.rangeRoundBands([0, this.height/2], .2);
+					.rangeRoundBands([0, this.height/1.4], .2);
 
 	this.colorScale = d3.scale.category20();
 
@@ -111,7 +111,7 @@ SentimentBarVis.prototype.updateVis = function(){
 
 	var that = this;
 
-	var barHeight = (this.height/2/(this.displayData.length)) - 3;
+	var barHeight = (this.height/2/(this.displayData.length)) + 1;
 
     // set domains for the scales -- x is score, y is company
     this.x.domain([0, d3.max(this.displayData)]);
@@ -179,7 +179,7 @@ SentimentBarVis.prototype.updateVis = function(){
 
 	this.svg.append("g")
 	  .attr("class", "x axis")
-	  .attr("transform", "translate(0," + this.height/2 + ")")
+	  .attr("transform", "translate(0," + this.height/1.4 + ")")
 
 	this.svg.append("g")
 	  .attr("class", "y axis")
