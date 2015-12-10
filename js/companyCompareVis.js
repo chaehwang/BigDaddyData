@@ -209,6 +209,8 @@ CompanyCompareVis.prototype.onSelectionChange= function (company){
         this.company = company;
         d3.select('#companyTitle').html(company);
 
+        this.compareCompany = "None";
+
         // add the word cloud
         var wordCloud = "<img src='../img/" + company + ".png' class='valign' height='320' width='520'>";
         $('#wordCloudCard').html(wordCloud);
