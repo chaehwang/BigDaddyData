@@ -58,8 +58,6 @@ CompanyScoreBreakdownVis.prototype.wrangleData = function(){
     var thisData = [];
     var thisIndex = this.companyList.indexOf(this.company);
 
-    console.log(thisIndex);
-
     if(thisIndex != -1){
 
         // map over the posts for this company
@@ -96,8 +94,6 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
     this.histogramData = d3.layout.histogram()
                             .bins(that.x.ticks(20))
                             (this.displayData);
-
-    console.log(this.histogramData);
 
     this.y = d3.scale.linear()
                 .domain([0, d3.max(that.histogramData, function(d){ return d.y; })])
