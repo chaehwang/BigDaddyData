@@ -83,6 +83,9 @@ CompanyScoreBreakdownVis.prototype.wrangleData = function(){
  */
 CompanyScoreBreakdownVis.prototype.updateVis = function(){
 
+    this.svg.selectAll(".bar").remove();
+    this.svg.selectAll(".x axis").remove();
+    this.svg.selectAll("g").remove()
 	var that = this;
 
     this.x = d3.scale.linear()
@@ -113,15 +116,14 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
 
     bar.append("rect")
         .attr("x", 1)
-        .attr("width", that.x(that.histogramData[0].dx) / 2)
+        .attr("width", 20)
         .attr("height", function(d){ return that.height/1.2 - that.y(d.y); })
 
     bar.append("text")
-        .attr("dy", "0.75em")
-        .attr("y", -10)
-        .attr("x", that.x(that.histogramData[0].dx)/2)
+        .attr("dy", "0em") 
+        .attr("dx", ".6em")
         .attr("text-anchor", "middle")
-        .text(function(d){ return d.y; })
+        .text(function(d){ if(d.y!= 0) return d.y; })
 
     this.svg.append("g")
         .attr("class", "x axis")
