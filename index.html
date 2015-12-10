@@ -88,7 +88,60 @@
 
 	<!-- div for process content, centered in wrapper -->
 	<div class = 'center-align' id = 'processWrapper' style="display:none;">
-		sup boys
+		<div class="row">
+	    <div class="col s12 m9 l10">
+	      <div id="introduction" class="section scrollspy">
+	        <p>Content </p>
+	      </div>
+
+	      <div id="structure" class="section scrollspy">
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	        <p>Test </p>
+	      </div>
+
+	      <div id="initialization" class="section scrollspy">
+	        <p>Content </p>
+	      </div>
+	    </div>
+	    <div class="col hide-on-small-only m3 l2" id="navigation">
+	      <ul class="section table-of-contents">
+	        <li><a href="#introduction">Introduction</a></li>
+	        <li><a href="#structure">Structure</a></li>
+	        <li><a href="#initialization">Intialization</a></li>
+	      </ul>
+	    </div>
+	  </div>
 	</div>
 
 	<script>
@@ -152,6 +205,9 @@
 
             // initialize the dropdown page for company compare
             $('select').material_select();
+
+            // initialize scrollSpy for process
+            $('.scrollspy').scrollSpy();
 
             /******************************
 			**
