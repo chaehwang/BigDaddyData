@@ -63,7 +63,6 @@ CompanyScoreBreakdownVis.prototype.wrangleData = function(){
         // map over the posts for this company
         this.data[thisIndex]['posts'].map(function(d, i){
             thisData.push(d.postSentimentScore);
-            console.log(d.postSentimentScore);
         })
 
         this.displayData = thisData;
@@ -94,14 +93,20 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
         xmax = 1;
     }
 
+    // adjust xmax for scaling purposes
+    xmax += 0.5;
+
     this.x = d3.scale.linear()
         .domain([-xmax, xmax])
-        .range([0, that.width]);
+        .range([0, that.width])
+        .nice();
 
     // generate the histogram
     this.histogramData = d3.layout.histogram()
-                            // .bins(that.x.ticks(10))
+                            .bins(that.x.ticks(10))
                             (this.displayData);
+
+    console.log(this.histogramData);
 
     this.y = d3.scale.linear()
                 .domain([0, d3.max(that.histogramData, function(d){ return d.y; })])
@@ -120,14 +125,13 @@ CompanyScoreBreakdownVis.prototype.updateVis = function(){
 
     bar.append("rect")
         .attr("x", 1)
-        .attr("width", 20)
+        .attr("width", that.x(that.histogramData[0].x + that.histogramData[0].dx) - 1)
         .attr("height", function(d){ return that.height/1.2 - that.y(d.y); })
 
     bar.append("text")
         .attr("dy", "0em") 
-        .attr("dx", ".6em")
-        // .attr("y", 6)
-        // .attr("x", that.x(that.histogramData[0].dx)/2)
+        .attr("y", -10)
+        .attr("x", that.x(that.histogramData[0].x + that.histogramData[0].dx)/2)
         .attr("text-anchor", "middle")
         .text(function(d){ if(d.y!= 0) return d.y; })
 
