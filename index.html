@@ -90,45 +90,45 @@
 	<div class = 'center-align' id = 'processWrapper' style="display:none;">
 		<div class="row">
 	    <div class="col s12 m9 l10">
-	      <div id="introduction" class="section scrollspy">
-	        <p>Content </p>
-	      </div>
+		<div id="introduction" class="section scrollspy">
+			<p>Content </p>
+		</div>
 
-	      <div id="structure" class="section scrollspy">
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	        <p>Test </p>
-	      </div>
+		<div id="structure" class="section scrollspy">
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+			<p>Test </p>
+		</div>
 
 	      <div id="initialization" class="section scrollspy">
 	        <p>Content </p>
@@ -146,6 +146,30 @@
 
 	<script>
 		$(function(){
+
+			d3.csv("company_with_prediction_range.csv", function(data){
+
+				d3.csv("comments1_with_sentiments.csv", function(commentsData){
+
+					console.log(commentsData);
+
+					var metaData = {};
+
+					// companyScoreList is a list of objects with the scores
+					var companyScoreList = [];
+
+					// map through data to create lists
+					data.map(function(d, i){
+
+						companyScoreList.push({'company': d.name, 'score': parseFloat(d.weighted_predict_range)});
+					})
+
+					var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
+
+
+				})
+
+			});
 
 			// dummy data
 			var sentimentData = [{'company': 'Facebook', 'score': 99}, 
@@ -199,7 +223,7 @@
             var MyEventHandler = new Object();
 
             // instantiate vis objects
-            var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), sentimentData, metaData, MyEventHandler);
+            // var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), sentimentData, metaData, MyEventHandler);
             var company_trend_vis = new CompanyTrendVis(d3.select("#companyTrendVis"), companyData, metaData, MyEventHandler);
             var company_compare_vis = new CompanyCompareVis(d3.select('#companyCompareVis'), companyData, metaData, MyEventHandler);
 
