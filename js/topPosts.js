@@ -4,29 +4,34 @@
 ** data input format: list of posts, with each post as {company, postID, postDate, text, postLink, postSentimentScore}
 ***/
 
-var dummyData = [
-	{'company': 'Dropbox', 'postID': 'cgfz4rs', 'postDate': '05/05/2015', 'text': 'hello, world!', 'postLink': 'https://www.reddit.com/r/technology/comments/21s1cd/how_dropbox_knows_when_youre_sharing_copyrighted/cgfz4rs', 'postSentimentScore': '89'},
-	{'company': 'Dropbox', 'postID': 'cgfz4rs', 'postDate': '05/05/2015', 'text': 'hello, world!', 'postLink': 'https://www.reddit.com/r/technology/comments/21s1cd/how_dropbox_knows_when_youre_sharing_copyrighted/cgfz4rs', 'postSentimentScore': '90'},
-	{'company': 'Dropbox', 'postID': 'cgfz4rs', 'postDate': '05/05/2015', 'text': 'hello, world!', 'postLink': 'https://www.reddit.com/r/technology/comments/21s1cd/how_dropbox_knows_when_youre_sharing_copyrighted/cgfz4rs', 'postSentimentScore': '71'},
-	{'company': 'Dropbox', 'postID': 'cgfz4rs', 'postDate': '05/05/2015', 'text': 'hello, world!', 'postLink': 'https://www.reddit.com/r/technology/comments/21s1cd/how_dropbox_knows_when_youre_sharing_copyrighted/cgfz4rs', 'postSentimentScore': '72'},
-	{'company': 'Dropbox', 'postID': 'cgfz4rs', 'postDate': '05/05/2015', 'text': 'hello, world!', 'postLink': 'https://www.reddit.com/r/technology/comments/21s1cd/how_dropbox_knows_when_youre_sharing_copyrighted/cgfz4rs', 'postSentimentScore': '93'},
-];
-
 // function that sorts posts by sentiment score, highest to lowest
 function sortPosts(postsList){
 
 	postsList = postsList.sort(function(a, b){
 
-		return parseFloat(b.postSentimentScore) - parseFloat(a.postSentimentScore);
+		return Math.abs(parseFloat(b.postSentimentScore)) - Math.abs(parseFloat(a.postSentimentScore));
 	})
 
 	return postsList;
 }
 
 // function that creates the HTML elements for the posts onto the page
-function addPosts(postsList){
+function addPosts(postsList, company){
+
+	// find the object that represents this company
+	for (comp in postsList){
+
+		if(postsList[comp]['company'] == company){
+			
+			postsList = postsList[comp]['posts'];
+			break;
+		}
+	}
 
 	postsList = sortPosts(postsList);
+
+	// cutoff to top 5 posts
+	postsList.length = 5;
 
 	// find the parent element to append divs to
 	var parent = $('#topPostsContent');
@@ -41,7 +46,7 @@ function addPosts(postsList){
 	postsList.map(function(d, i){
 
 		// process the text to escape characters
-		var escapedText = d.text.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+		var escapedText = d.body.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
 		// content is the div that we're going to append
 		var content = "<div class='.childComment'>";
@@ -50,7 +55,7 @@ function addPosts(postsList){
 		content += "<span> Score: " + d.postSentimentScore + ", </span >";
 
 		// add linked text
-		content += "<a href=" + d.postLink + ">" + escapedText + "</a>";
+		content += "<a href=" + d.link + " class='truncate'>" + escapedText + "</a>";
 
 		// close content
 		content += "</div>";

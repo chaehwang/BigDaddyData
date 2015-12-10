@@ -166,7 +166,7 @@
 						var companyScoreList = [];
 						var companyPostsList = [];
 
-						console.log(fundingData);
+						console.log(commentsData);
 
 						// map through data to create lists
 						data.map(function(d, i){
@@ -269,8 +269,6 @@
 			            		// if we've found the company, then update the page
 			            		if(iterComp['company'] == company){
 
-			            			console.log('ay');
-
 			            			d3.select('#companyAge').html('Age: ' + iterComp.age);
 			            			d3.select('#companySize').html('Size: ' + iterComp['size']);
 			            			d3.select('#companyFunding').html('Most Recent Funding: ' + iterComp.funding);
@@ -278,7 +276,7 @@
 			            	}
 
 			            	// find and add the top posts for this company
-							addPosts(dummyData);
+							addPosts(companyPostsList, company);
 			            })
 
 			            $('#backButton').on('click', function(){
