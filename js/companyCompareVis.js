@@ -6,12 +6,12 @@
 
 **/
 
-CompanyCompareVis = function(_parentElement, _data, _metaData, _eventHandler){
+CompanyCompareVis = function(_parentElement, _data, _companyList, _eventHandler){
 
     // set params
     this.parentElement = _parentElement;
     this.data = _data;
-    this.metaData = _metaData;
+    this.companyList = _companyList;
     this.eventHandler = _eventHandler;
 
     // instantiate display data
@@ -92,44 +92,101 @@ CompanyCompareVis.prototype.wrangleData = function(){
 	// set that for scope
 	var that = this;
 
-	var companyList = [];
+	var originalList = [];
     var compareList = [];
+    var monthlyOriginalList = [];
+    var monthlyCompareList = [];
 
     // create data parser
     var parseDate = d3.time.format("%Y-%m");
 
-    var testCompare = [{'postDate': '2015-05', 'postSentimentScore': 20}, 
-                        {'postDate': '2015-06', 'postSentimentScore': 40},
-                        {'postDate': '2015-07', 'postSentimentScore': 60},
-                        {'postDate': '2015-08', 'postSentimentScore': 80},
-                        {'postDate': '2015-09', 'postSentimentScore': 70} ];
-
-
-    // TODO: some js to get the name of the company selected so our data is dynamic
-    var selectedCompany = this.compareCompany;
-
-    if(selectedCompany == "None"){
+    if(this.compareCompany == "None"){
         this.compareData = [];
     }
     else{
-        this.compareData = testCompare;    
+
+        // find the index of this company
+        var compareIndex = this.companyList.indexOf(that.compareCompany);
+        if (compareIndex != -1)
+            this.compareData = this.data[compareIndex];    
+        else
+            this.compareData = [];
     }
-    
 
-    // fill up companyList and compareList
-    this.data.map(function(d, i){
+    var companyIndex = this.companyList.indexOf(that.company)
 
-    	companyList.push({'date': parseDate.parse(d.postDate), 'score': d.postSentimentScore});
-    })
+    if(companyIndex != -1)
+        this.displayData = this.data[companyIndex].posts;
+    else
+        this.displayData = [];
 
-    this.compareData.map(function(d, i){
+    if(this.displayData.length > 0){
 
-        compareList.push({'date': parseDate.parse(d.postDate), 'score': d.postSentimentScore});
-    })
+        // fill up companyList and compareList
+        this.displayData.map(function(d, i){
+
+            originalList.push({'date': d.postDate, 'score': d.postSentimentScore});
+        })
+
+        this.compareData.map(function(d, i){
+
+            compareList.push({'date': d.postDate, 'score': d.postSentimentScore});
+        })
+
+        console.log(originalList);
+
+        // find the monthly data for both original and compare
+        originalList.map(function(d, i){
+
+            // convert datestring to Date
+            var dateObject = new Date(d.date)
+
+            // find the month/year of this post and use the time format
+            var monthString = dateObject.getFullYear() + "-" + dateObject.getMonth();
+
+            console.log(d);
+
+            var found = false; 
+
+            // see if this month already exists. if so, update score. if not, create it. 
+            for(monthIndex in monthlyOriginalList){
+
+                var month = monthlyOriginalList[monthIndex];
+
+                // if we've found the date, update the score
+                if (month.postDate == monthString){
+
+                    month.postSentimentScore += d.score;
+                    found = true;
+                    break;
+                }
+            }
+
+            // if not found, then append an object for this month
+            if(!found){
+
+                monthlyOriginalList.push({
+                    'postDate': monthString,
+                    'postSentimentScore': 0
+                })
+            }
+
+        });
+
+        compareList.map(function(d, i){
+
+
+        });
+
+        console.log(monthlyOriginalList);
+
+
+
+    }
 
 
     // set displayData to be scoreList since that's going to determine our bar values
-    this.displayData = companyList;
+    this.displayData = originalList;
     this.compareData = compareList;
 
     this.updateVis();
@@ -146,7 +203,7 @@ CompanyCompareVis.prototype.updateVis = function(){
 
 	var that = this;
 
-    // set domains for the scales -- x is score, y is company
+    // set domains for the scales -- x is date, y is score
 	this.x.domain(d3.extent(this.displayData, function(d) { return d.date; }));
     this.y.domain([0, d3.max(this.displayData, function(d) { return d.score; })]);
 
