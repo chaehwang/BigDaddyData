@@ -18,6 +18,8 @@ CompanyScoreBreakdownVis = function(_parentElement, _parentWidth, _data, _compan
     this.displayData = [];
     this.compareData = [];
 
+    console.log(_parentWidth);
+    
     // define all "constants" here
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
 
