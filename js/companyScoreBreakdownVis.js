@@ -6,7 +6,7 @@
 
 **/
 
-CompanyScoreBreakdownVis = function(_parentElement, _data, _companyList, _eventHandler){
+CompanyScoreBreakdownVis = function(_parentElement, _parentWidth, _data, _companyList, _eventHandler){
 
     // set params
     this.parentElement = _parentElement;
@@ -22,7 +22,7 @@ CompanyScoreBreakdownVis = function(_parentElement, _data, _companyList, _eventH
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
 
     console.log(this.parentElement.offsetWidth);
-    this.width = $('#barHolder').width() - this.margin.left - this.margin.right,
+    this.width = - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.initVis();

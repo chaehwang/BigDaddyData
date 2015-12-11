@@ -96,6 +96,12 @@
 
 	<!-- div for process content, centered in wrapper -->
 	<div id = 'processWrapper' style="display:none;">
+
+		<div class='center-align'>
+			<a class="waves-effect btn white black-text" id="githubButton" href='https://github.com/chaehwang/BigDaddyData'>Github</a>
+			<a class="waves-effect btn white black-text" id="videoButton" href='youtube.com' style="margin-left: 2%;">Video</a>
+		</div>
+
 		<div class="row" style="display: inline-flex">
 		    <div class="col s12 m9 l10" style="width: 100%;">
 
@@ -455,8 +461,10 @@
 							// Create an eventHandler
 				            var MyEventHandler = new Object();
 
+				            var parentWidth = $('#barHolder').width();
+
 				            // instantiate vis objects
-							var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
+							var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), parentWidth, companyScoreList, metaData, MyEventHandler);
 
 							var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
 
