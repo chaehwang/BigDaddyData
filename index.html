@@ -464,7 +464,7 @@
 				            var parentWidth = $('#barHolder').width();
 
 				            // instantiate vis objects
-							var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), parentWidth, companyScoreList, metaData, MyEventHandler);
+							var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
 
 							var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
 
