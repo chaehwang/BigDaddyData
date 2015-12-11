@@ -289,6 +289,11 @@
 
 								<p>
 
+									For our sentiment variables, we tested out two different types of sentiment predictions: the binary prediction (positive versus negative) and the range prediction (scale of -2 to 2). Additionally, we also tested the weighted and unweighted options for both the binary and range predictions. 
+
+									We first started off by looking at an ordinary least squares regression using our transformed data, creating one model that included the demographics data and the binary sentiment predictors and one model that had the demographics data and the the range sentiment predictors. The results we came up with were a model with an R^2 value of 0.458 and 0.426 for the binary and range predictors, respectively, which indicate that the model doesn’t do a very good job of predicting the funding value. We also tried conducting a forward stepwise regression to select only variables that were the most significant, but this didn’t improve the R^2 values either, although the adjusted R^2 values improved. 
+
+									After trying OLS regressions, we then tried utilizing a random forest regressor to see if this would improve our results. From running the random forest regressor, we significantly were able to improve our R^2 values, obtaining values of 0.799 and 0.829 for the binary and range predictions, respectively. Because of our small data set, we weren’t able to split our data into testing and training data sets to validate our model, so we don’t know if this was a result of overfitting or if the model actually does a good job of predicting total funding. However, this is still an improvement from our previous model and seems to indicate that this model shows promise for predicting total funding for companies based on this information we have. 
 
 								<p>
 							</div>
