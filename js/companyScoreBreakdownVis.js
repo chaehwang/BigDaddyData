@@ -161,7 +161,7 @@ CompanyScoreBreakdownVis.prototype.onSelectionChange= function (company){
         this.compareCompany = "None";
 
         // add the word cloud
-        $('#wordCloudImage').attr("src", "../BigDaddyData/img/"+company+".png");
+        $('#wordCloudImage').attr("src", "../img/"+company+".png");
     }
 
     // update viz to reflect data
