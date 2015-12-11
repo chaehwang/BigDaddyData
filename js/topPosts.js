@@ -49,21 +49,25 @@ function addPosts(postsList, company){
 	topPostList.map(function(d, i){
 
 		// process the text to escape characters
-		var escapedText = d.body.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+		if(typeof d !== "undefined"){
 
-		// content is the div that we're going to append
-		var content = "<div class='.childComment'>";
+			var escapedText = d.body.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
 
-		// add score
-		content += "<span> Score: " + d.postSentimentScore + ", </span >";
+			// content is the div that we're going to append
+			var content = "<div class='.childComment'>";
 
-		// add linked text
-		content += "<a href=" + d.link + " class='truncate'>" + escapedText + "</a>";
+			// add score
+			content += "<span> Score: " + d.postSentimentScore + ", </span >";
 
-		// close content
-		content += "</div>";
+			// add linked text
+			content += "<a href=" + d.link + " class='truncate'>" + escapedText + "</a>";
 
-		// append post onto page
-		parent.append(content);
+			// close content
+			content += "</div>";
+
+			// append post onto page
+			parent.append(content);
+
+		}
 	})
 }
