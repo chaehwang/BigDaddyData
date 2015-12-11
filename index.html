@@ -284,6 +284,8 @@
 
 				            		iterComp = fundingData[comp];
 
+				            		console.log(iterComp);
+
 				            		// if we've found the company, then find it again in actualFunding (hacky)
 				            		if(iterComp['company'] == company){
 
@@ -293,9 +295,11 @@
 
 				            				extraComp = actualFundingData[extraIter];
 
-				            				if(extraComp['name'] == company){
+				            				var format = d3.format(",");
+
+				            				if(extraComp['name'].toUpperCase() == company.toUpperCase()){
 				            					foundFunding = true;
-						            			d3.select('#companyFunding').html('Predicted funding: ' + extraComp.funding_prediction);
+						            			d3.select('#companyFunding').html('Predicted funding: ' + format(parseFloat(extraComp.funding_prediction)));
 				            				}
 				            			}
 
