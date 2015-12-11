@@ -21,8 +21,7 @@ CompanyScoreBreakdownVis = function(_parentElement, _parentWidth, _data, _compan
     // define all "constants" here
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
 
-    console.log(this.parentElement.offsetWidth);
-    this.width = - this.margin.left - this.margin.right,
+    this.width = _parentWidth - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.initVis();
