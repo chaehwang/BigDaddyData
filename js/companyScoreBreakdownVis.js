@@ -6,7 +6,7 @@
 
 **/
 
-CompanyScoreBreakdownVis = function(_parentElement, _parentWidth, _data, _companyList, _eventHandler){
+CompanyScoreBreakdownVis = function(_parentElement, _data, _companyList, _eventHandler){
 
     // set params
     this.parentElement = _parentElement;
@@ -18,12 +18,9 @@ CompanyScoreBreakdownVis = function(_parentElement, _parentWidth, _data, _compan
     this.displayData = [];
     this.compareData = [];
 
-    console.log(_parentWidth);
-    
     // define all "constants" here
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
-
-    this.width = _parentWidth - this.margin.left - this.margin.right,
+    this.width = 720 - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.initVis();

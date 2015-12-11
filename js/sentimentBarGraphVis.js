@@ -11,7 +11,7 @@
 
 **/
 
-SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
+SentimentBarVis = function(_parentElement, _parentWidth, _data, _metaData, _eventHandler){
 
     // set params
     this.parentElement = _parentElement;
@@ -24,7 +24,7 @@ SentimentBarVis = function(_parentElement, _data, _metaData, _eventHandler){
 
     // define all "constants" here
     this.margin = {top: 20, right: 40, bottom: 30, left: 30},
-    this.width = 720 - this.margin.left - this.margin.right,
+    this.width = _parentWidth - this.margin.left - this.margin.right,
     this.height = 1000 - this.margin.top - this.margin.bottom;
 
     this.initVis();
