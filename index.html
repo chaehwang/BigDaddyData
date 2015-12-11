@@ -225,130 +225,146 @@
 
 					d3.csv("funding_data.csv", function(fundingData){
 
-						// companyNameList is just the names
-						// companyScoreList is a list of objects with the scores
-						// companyPostsList will include the companies and all the posts
-						var companyNameList = [];
-						var companyScoreList = [];
-						var companyPostsList = [];
+						d3.csv('company_with_funding.csv', function(actualFundingData){
 
-						// map through data to create lists
-						data.map(function(d, i){
-							companyNameList.push(d.name);
-							companyScoreList.push({'company': d.name, 'score': parseFloat(d.weighted_predict_range)});
-							companyPostsList.push({'company': d.name, 'posts':[]})
-						})
 
-						// parse through commentsData
-						commentsData.map(function(d, i){
+							// companyNameList is just the names
+							// companyScoreList is a list of objects with the scores
+							// companyPostsList will include the companies and all the posts
+							var companyNameList = [];
+							var companyScoreList = [];
+							var companyPostsList = [];
 
-							// find the index of the object for this company
-							var companyIndex = companyNameList.indexOf(d.company);
+							// map through data to create lists
+							data.map(function(d, i){
+								companyNameList.push(d.name);
+								companyScoreList.push({'company': d.name, 'score': parseFloat(d.weighted_predict_range)});
+								companyPostsList.push({'company': d.name, 'posts':[]})
+							})
 
-							if(companyIndex != -1){
+							// parse through commentsData
+							commentsData.map(function(d, i){
 
-								companyPostsList[companyIndex]['posts'].push({
-									'body': d["body"], 
-									'postSentimentScore': parseFloat(d["score"])*parseFloat(d["Answer1"]),
-								})
-							}
+								// find the index of the object for this company
+								var companyIndex = companyNameList.indexOf(d.company);
 
-						})
+								if(companyIndex != -1){
 
-						var metaData = {};
+									companyPostsList[companyIndex]['posts'].push({
+										'body': d["body"], 
+										'postSentimentScore': parseFloat(d["score"])*parseFloat(d["Answer1"]),
+									})
+								}
 
-						// Create an eventHandler
-			            var MyEventHandler = new Object();
+							})
 
-			            // instantiate vis objects
-						var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
+							var metaData = {};
 
-						var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
+							// Create an eventHandler
+				            var MyEventHandler = new Object();
 
-			            /******************************
-						**
-						** EVENT HANDLERS BELOW
-						**
-						*******************************/
+				            // instantiate vis objects
+							var sentiment_bar_vis = new SentimentBarVis(d3.select("#content"), companyScoreList, metaData, MyEventHandler);
 
-			            // listener for a specific company selected from graph
-			            $(MyEventHandler).bind("selectCompany", function(event, company){
+							var breakdown_vis = new CompanyScoreBreakdownVis(d3.select('#companyScoreBreakdownVis'), companyPostsList, companyNameList, MyEventHandler);
 
-			            	breakdown_vis.onSelectionChange(company);
+				            /******************************
+							**
+							** EVENT HANDLERS BELOW
+							**
+							*******************************/
 
-			            	// find the stats for this company and update the page
-			            	for (comp in fundingData){
+				            // listener for a specific company selected from graph
+				            $(MyEventHandler).bind("selectCompany", function(event, company){
 
-			            		iterComp = fundingData[comp];
+				            	breakdown_vis.onSelectionChange(company);
 
-			            		// if we've found the company, then update the page
-			            		if(iterComp['company'] == company){
+				            	// find the stats for this company and update the page
+				            	for (comp in fundingData){
 
-			            			d3.select('#companyAge').html('Age: ' + iterComp.age);
-			            			d3.select('#companySize').html('Size: ' + iterComp['size']);
-			            			d3.select('#companyFunding').html('Most Recent Funding: ' + iterComp.funding);
-			            		}
-			            	}
+				            		iterComp = fundingData[comp];
 
-			            	// find and add the top posts for this company
-							addPosts(companyPostsList, company);
-			            })
+				            		// if we've found the company, then find it again in actualFunding (hacky)
+				            		if(iterComp['company'] == company){
 
-			            $('#backButton').on('click', function(){
+				            			for(extraIter in actualFundingData){
 
-							$('#sentimentBarGraph').toggleClass('transitionLeftOut');
-							$('#companyPage').toggleClass('transitionRightIn');
+				            				extraComp = actualFundingData[extraIter];
 
-			            });
+				            				if(extraComp['name'] == company){
 
-			            // toggle navigation action for the viz
-			            $('#vizButton').on('click', function(){
-
-			            	// only do action if button is not disabled
-			            	if(!$(this).hasClass('disabled')){
-
-				            	// make sure displayText is hidden
-				            	d3.select('#blankDisplayText').style("display", "none");
-
-				            	// if processWrapper is open, close it
-				            	if($('#processWrapper').css('display') != 'none'){
-				            		d3.select('#processWrapper').style('display', 'none');
+						            			d3.select('#companyAge').html('Age: ' + iterComp.age);
+						            			d3.select('#companySize').html('Size: ' + iterComp['size']);
+						            			d3.select('#companyFunding').html('Predicted funding: ' + extraComp.funding_prediction);
+				            				}
+				            			}
+				            		}
 				            	}
 
-				            	// open the vizWrapper
-								$('#vizWrapper').toggle();
+				            	// find and add the top posts for this company
+								addPosts(companyPostsList, company);
+				            })
 
-								// make this button disabled
-								$('#vizButton').addClass('disabled');
+				            $('#backButton').on('click', function(){
 
-								// free other button
-								$('#processButton').removeClass('disabled');
-			            	}
-			            });
+								$('#sentimentBarGraph').toggleClass('transitionLeftOut');
+								$('#companyPage').toggleClass('transitionRightIn');
 
-			            // toggle navigation action for the process
-			            $('#processButton').on('click', function(){
+				            });
 
-			            	if(!$(this).hasClass('disabled')){
+				            // toggle navigation action for the viz
+				            $('#vizButton').on('click', function(){
 
-				            	// make sure displayText is hidden
-				            	d3.select('#blankDisplayText').style("display", "none");
+				            	// only do action if button is not disabled
+				            	if(!$(this).hasClass('disabled')){
 
-				            	// if viz is open, close it
-				            	if($('#vizWrapper').css('display') != 'none'){
-				            		d3.select('#vizWrapper').style('display', 'none');
+					            	// make sure displayText is hidden
+					            	d3.select('#blankDisplayText').style("display", "none");
+
+					            	// if processWrapper is open, close it
+					            	if($('#processWrapper').css('display') != 'none'){
+					            		d3.select('#processWrapper').style('display', 'none');
+					            	}
+
+					            	// open the vizWrapper
+									$('#vizWrapper').toggle();
+
+									// make this button disabled
+									$('#vizButton').addClass('disabled');
+
+									// free other button
+									$('#processButton').removeClass('disabled');
 				            	}
+				            });
 
-				            	// open the processWrapper
-								$('#processWrapper').toggle();
+				            // toggle navigation action for the process
+				            $('#processButton').on('click', function(){
 
-								// make this button disabled
-								$('#processButton').addClass('disabled');
+				            	if(!$(this).hasClass('disabled')){
 
-								// free other button
-								$('#vizButton').removeClass('disabled');
-			            	}
-			            });
+					            	// make sure displayText is hidden
+					            	d3.select('#blankDisplayText').style("display", "none");
+
+					            	// if viz is open, close it
+					            	if($('#vizWrapper').css('display') != 'none'){
+					            		d3.select('#vizWrapper').style('display', 'none');
+					            	}
+
+					            	// open the processWrapper
+									$('#processWrapper').toggle();
+
+									// make this button disabled
+									$('#processButton').addClass('disabled');
+
+									// free other button
+									$('#vizButton').removeClass('disabled');
+				            	}
+				            });
+
+
+						})
+
+						
 
 					})
 
