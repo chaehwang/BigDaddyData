@@ -100,94 +100,281 @@
 		    <div class="col s12 m9 l10" style="width: 100%;">
 
 				<div id="overview" class="section scrollspy" style="height: 500px; width: 100%">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Overview and Motivation </span>
+								<p>
+									Even at a time when TV shows like Silicon Valley and Shark Tank gain an ever greater place in pop culture and the public consciousness, startups remain a risky endeavor -- both for those who found them and those who invest in them. Save the occasional (or frequent, depending on the success of the company) article in tech publications, employees may have little idea how their work is perceived by the wider public. Similarly, while venture capitalists have access to extensive within-industry information when assessing whether to invest in a company, they may know much less about whether those outside the privileged coterie of tech view the startup in a favorable light and whether its product might prove to be a hit with consumers. Given that the vast majority of startups fail (90%, according to one Fortune article) and that even those that remain extant often do not succeed to any spectacular degree, we believe it would be helpful to establish a metric or predictive system by which one could determine the eventual funding of a startup, in our case by way of public sentiment.  While the funding a company receives obviously sees influence from many factors, we were interested to know first of all how the public -- rather than the tech community -- felt about certain companies and whether that feeling had any bearing on the amount of funding a company would receive in the long run.
+								</p>
 							</div>
 					</div>
 				</div>
 
 				<div id="relatedWork" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Related Work </span>
+								<p>
+									Below are some of the articles that we've read concerning sentiment analysis, particularly in regards to analyzing Twitter data. In the early stages of the project, we decided to switch from analyzing Twitter data to Reddit data because Reddit does not have a restriction on length. We also felt that Reddit's upvote functionality would allow us not only to analyze the sentiment of a comment but weight it according to popular response.
+								</p>
+								<ul>
+									<li>
+										<a href = 'http://incc-tps.googlecode.com/svn/trunk/TPFinal/bibliografia/Pak%20and%20Paroubek%20(2010).%20Twitter%20as%20a%20Corpus%20for%20Sentiment%20Analysis%20and%20Opinion%20Mining.pdf'>Twitter as a Corpus for Sentiment Analysis and Opinion Mining</a>
+									</li>
+									<li>
+										<a href = 'http://dl.acm.org/citation.cfm?id=1454712'>Opinion Mining and Sentiment Analysis</a>
+									</li>
+									<li>
+										<a href = 'http://nms.sagepub.com/content/16/2/340.short'>Every Tweet Counts? How sentiment analysis of social media can improve our knowledge of citizen's political preferences with an application to Italy and France</a>
+									</li>
+									<li>
+										<a href = 'http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0014118'>Pandemics in the Age of Twitter: Content Analysis of Tweets during the 2009 H1N1 Outbreak</a>
+									</li>
+								</ul>
 							</div>
 					</div>
 				</div>
 
 				<div id="initialQuestions" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Initial questions </span>
+								<p>
+									Given the difficulty even those who make a career of it have in knowing whether a startup will be valuable in the long run (and thus whether it ought to be invested in), we 
+
+									Our final question at hand is how can we predict the total funding a startup receives in its lifetime. We looked into variables such as company size, the age of the company, and the number of rounds of funding this company received. While we acknowledge that many factors can contribute to this target variable, one of the biggest questions we had at hand is whether people's sentiment towards the startup affected the amount of funding it obtains. We turned to reddit for comments because reddit caters to a diverse audience and its interactive nature allows us to pull comments that related to startups over the course of time. Using reddit comments, we want to see if it is possible to run a sentiment analysis and use this a predictor in modeling our target variable. Do companies that carry a generally positive sentiment among reddit users have a higher probability of receiving more funding?
+
+								</p>
 							</div>
 					</div>
 				</div>
-				<div id="dataCollection" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+
+				<div id="dataCollection" class="section scrollspy" style="height: 600px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 600px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Data Collection </span>
+								<p>
+
+									There were two stages to our data collection process. Both of them used PRAW, which is a wrapper around the Reddit API that functions mostly the same but takes care of some things such as timing requests to avoid getting blocked. Read more about PRAW <a href = 'https://praw.readthedocs.org/en/stable/'>here</a>. To choose the companies that we scraped for, we chose a combination of the most obvious companies (Google, Microsoft, etc.) and companies that we were interested in (Asana, Coursera, Riot Games, etc.). 
+
+									Stage 1: 
+									Scraping by company subreddit. We took our initial list of companies and scraped the top posts/comments from the subreddit for that company. For each post/comment, we got the body of text, the score (a Reddit metric that's a combination of upvotes and downvotes, and thus a proxy for communal agreement on the content of the post), the company that the post is associated with, the link to the post, the date of the post, and the title of the parent post. 
+
+									We checked the results, and we got a decent number of posts (n = ????). However, once we looked further into the results, we realized that the bulk of posts came from the larger companies (such as Apple and Microsoft), whereas other companies such as Dropbox and Pinterest (both tech giants in their own right) barely had any, since /r/Dropbox and /r/Pinterest aren't active communities. To supplement this, we moved on to our second stage of scraping
+
+									Stage 2:
+									Scraping by tech subreddit. To supplement the data gained from Stage 1, we scraped the subs /r/tech, /r/technology, /r/business, and /r/startups for posts related to the companies from stage 1. This proved much more fruitful, and allowed us to get data for companies that don't have active subreddit communities.
+								</p>
 							</div>
 					</div>
 				</div>
-				<div id="eda" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+				<div id="eda" class="section scrollspy" style="height: 2200px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 2200px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Exploratory Data Analysis </span>
+								<p>
+
+									<img src ='/img/eda1.png'>
+
+									From the distribution of sentiments we can see that the sentiments are very heavily neutral. This seems to be a fairly normal distribution with an equal amount of negative and positive reddit comments. However, the overwhelming amount of neutral comments is slightly concerning in training a classification model because it will be conditioned to identifying most comments as neutral because this is what will increase the accuracy level. This unbalanced nature is something to keep in mind as we build the model and assess the accuracy score. 
+
+									We also did some exploratory data analysis on other features of the company, such as the number of funding rounds, the funding total, the age, time from last funding, and the predicted sentiment score of the company. 
+
+									<img src='/img/eda2.png'>
+
+									From these plots, we see that although most of the graphs appear to be somewhat normally distributed, some of the plots, such as total funding, age, and time since last funding, are heavily skewed to the right. To fix this, we did a log transformation on the variables skewed to make them more normal:
+
+									<img src='/img/eda4.png'>
+
+									We then wanted to see whether a linear relationship existed between any of the predictor variables and our response variable. To do this, we created scatter plots of each feature with the response variable:
+
+									<img src='/img/eda3.png'>
+
+									The data seems to slightly approximate linearity, although not too much. Despite this, we decided to try modeling a linear regression anyways.
+								</p>
 							</div>
 					</div>
 				</div>
 				<div id="methods" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Methods </span>
+								<p>
+									Our methodology includes forming a model with 3 layers, each building upon another to eventually predict the valuation of a startup given its demographics and reddit comments. Our first model will predict the sentiment of a comment at hand. Our second model will use this output along with other properties of the text in a linear regression to predict the final sentiment of the comment. Our third model will use sentiment towards a company as an explanatory variable in predicting the amount of funding a startup will acquire. 
+								</p>
 							</div>
 					</div>
 				</div>
 				<div id="validation" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Validation </span>
+								<p>
+
+									To perform our validation, we utilized Amazon Mechanical Turk to manually identify each reddit comment on a scale from -2 to 2, which -2 being a strongly negative comment and 2 being a strongly positive comment about the company in question. When considering which model to choose for our classification, we decided to use a classification model that can handle these 5 categories as well as binary classifications. We defined any sentiment with a sentiment >= 0 as positive and all other sentiments as negative. This helps us utilize logistic regression as well as ROC curves and Calibration plots, which are limited to binary data. We also want to keep in mind that we are strictly focused on comments that are negative towards the company. Comments that were negative towards other users or extraneous features were marked as neutral. 
+
+								</p>
 							</div>
 					</div>
 				</div>
+
+				<div id="binaryModels" class="section scrollspy" style="height: 800px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 800px; width: 650px;">
+							
+							<div class="card-content">
+								<span class="card-title"> Binary Models </span>
+								<p>
+
+									<img src='/img/bm1.png'>
+
+									Given our binary transformed data, we explore six different classification models; MultiNomial Naive Bayes, Random Forest, Logistic Regression, Support Vector Machine, and Naive Bayes Classifier. By the nature of our unbalanced data, we found that the models that performed the best were the logistic regression and the random forest. The linear SVM performed to a similar extent. As explained previously, our data is highly unbalanced towards neutral comments. Because I grouped the neutral comments with the positive comments in the binary classification, the positive results are a heavy portion of our dataset. The logistic regression, Random Forest, and linear SVM help account for this unbalanced data by tuning one of the parameters, class_weight, and therefore acknowledging this imbalance while training the model. Our Multinomial Naive Bayes is one of the worst performing because it does not have a parameter that can account for our imbalanced data. 
+
+								</p>
+							</div>
+					</div>
+				</div>
+
+				<div id="categoricalModels" class="section scrollspy" style="height: 500px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
+							
+							<div class="card-content">
+								<span class="card-title"> Categorical Models </span>
+								<p>
+									Using our 5 category data, we also explored the Random Forest and MultiNomial Naive Bayes. The Random Forest had the highest score on the training set of 1, but had a lower accuracy score on the testing set of .66, suggesting that this model was much more prone to overfitting. The Multinomial Naive Bayes has an accuracy of 66% for both the testing and training set, suggesting that this model was much less prone to overfitting, but from our ROC curve, we also saw that this model has a low AUC and did poorly when dealing with unbalanced data. Therefore, we saw both pros and cons to each model. When proceeding with the second model, we decided to use the output for both the binary predictor and the 5-class classification predictor. We decided to move on with the logistic regression for the binary predictor and the random forest for the 5-class predictor because it was able to handle imbalanced data. 
+
+								</p>
+							</div>
+					</div>
+				</div>
+
+				<div id="secondLevelModel" class="section scrollspy" style="height: 500px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
+							
+							<div class="card-content">
+								<span class="card-title"> Second Level Models </span>
+								<p>
+									Using our output from the sentiment analysis, we moved onto our next level in the model. While the tokenization of the Count Vectorizer does provide a significant bulk of insight into the positivity of a reddit comment, there are other text features that could help predict the general sentiment of a post, including the number of words and number of sentences in the particular reddit comment. We then ran a linear regression using the output from our classification model, the number of words, and the number of sentences to predict the true sentiment of the reddit post on a scale from -2 to 2. By using a hierarchical model, we are able to explore if there are features that contribute to a sentiment that cannot be fully explained by the words. For example, are long posts more likely to be a negative "rant" per say? Are shorter sentences more likely to be positive comments? By including these qualities of the text in a linear regression model, we try to strive for better accuracy in predicting the sentiment of a reddit comment. 
+
+								</p>
+							</div>
+					</div>
+				</div>
+
+				<div id="thirdLevelModel" class="section scrollspy" style="height: 1200px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 1200px; width: 650px;">
+							
+							<div class="card-content">
+								<span class="card-title"> Third Level Models </span>
+								<p>
+									After comparing our models to determine the one that can most accurately predict Reddit user's sentiments about certain companies, we decided that we wanted to incorporate this with other demographic information about the companies, such as the age of the company and number of rounds of funding, to see if we could predict how successful a company would be. Originally, we wanted to use the valuation of the companies as our response variable to measure a company's success; however, we found that there were many methods of calculating a company's valuation and that the valuation of a company was based primarily on how much potential investors think a company has, which is hard to measure and isn't readily available in any database. Instead, we decided to use the total funding that a company received as our response variable. We decided that this would work as a way to predict a company's success because the amount of funding a company receives reflects how successful an investor thinks a company will be in the future. 
+
+									After deciding on our response variable, we used Crunchbase.com as our main source of data. Initially, we tried using BeautifulSoup to scrape the HTML; however, due to strict regulation of the site, Crunchbase blocked us from doing any scraping. Instead, we requested access to the Crunchbase database and API and used an excel spreadsheet file that Crunchbase had in its database containing all the relevant information we needed about each of the companies. The process of cleaning the data from the excel spreadsheet was actually a lot more time consuming than expected. The biggest reason for this is because when we converted the excel sheet into a csv and extracted the data points from there, each of the entries were formatted in a way that made the data not immediately usable, which required us to format and manipulate the data so that we could use it. Another small problem we ran into was that the company names we had sometimes didn't directly match with the names in the crunchbase dataset (e.g. we had Palantir instead of Palantir Technologies). For that, we manually changed the names, because there weren't many names that required changing, although figuring out a way to automate that process might be valuable in the future if we want to run this simulation on more companies. 
+
+									The demographic variables we ended up looking at were:
+								</p>
+
+								<ul>
+									<li><span>Whether the company is public or not</span></li>
+									<li><span>The number of funding rounds</span></li>
+									<li><span>Age of the company</span></li>
+									<li><span>The time since the last funding round. </span></li>
+								</ul>
+
+								<p>
+
+
+								<p>
+							</div>
+					</div>
+				</div>
+
+				<div id="analysis" class="section scrollspy" style="height: 1000px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 1000px; width: 650px;">
+							
+							<div class="card-content">
+								<span class="card-title"> Analysis </span>
+								
+
+								<p>
+									From the output of our Random Forest Regressor, we can output a list of feature importances to understand which variables are driving this model:
+								</p>
+
+								<img src='/img/a1.png'>
+
+								<p>
+									 Variables with the highest feature importance have the highest correlation with funding received and therefore can help us predict what factors are most significant in predicting the funding. As we can see, funding rounds are the most important predictor for funding. This would make logical sense because startups with more funding rounds accumulate more money throughout these rounds so there is a clear positive correlation. We can see that our next highest predictor is predict_range, which is the predicted sentiment of a company based on reddit users that is not weighted by the number of upvotes. While this is not as strong of a predictor as the number of funding rounds, it is the second most important and therefore we can see that a positive sentiment towards a company does positive correlation with the amount of funding. Negative sentiment from reddit comments about a company could be indicative of poor customer service and therefore indicative of low probability of success, driving down funding. 
+
+									From our analysis, we can conclude that general sentiment towards a company is a good predictor in the amount of funding it will receive. 
+
+								</p>
+							</div>
+					</div>
+				</div>				
+
 				<div id="vizweb" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Visualization and Website </span>
+								<p>
+									To visualize the results to an end user that may not be as familiar with data science concepts, we created several visualizations in D3 for our website.
+
+									The first is the overall sentiment analysis bar graph, which is displayed when the user presses the "Visualize" button. This shows the companies that we analyzed, with one bar for each company in order of their sentiment score. 
+
+									Clicking on a bar brings us to the visualization for that company. There are a few components: 
+								</p>
+
+								<ul>
+									<li><span>Underneath the title, some stats: the age of the company in years, the size of the company, and the predicted funding for that company. If that data was unavailable, it'll say "NA". </span></li>
+									<li><span>A histogram showing the breakdown of the total sentiment score for the company. The frequencies represent the numbers of times that posts/comments associated with the company received a sentiment score in that bucket.  </span></li>
+									<li><span>A panel that shows the top posts for that company. Here, "top" is defined as having the highest absolute value sentiment score, which means that it had the "most influence" on the sentiment score of the company as a whole.  </span></li>
+									<li><span>On the bottom, a word cloud generated in R of the most commonly used words for that company.  </span></li>
+								</ul>
+
+								<p>
+									Clicking on the "Process" button is what takes you to this page.
+								</p>
 							</div>
 					</div>
 				</div>
-				<div id="obstacles" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+				<div id="obstacles" class="section scrollspy" style="height: 700px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 700px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Obstacles </span>
+								<p>
+
+								Validating data: 
+
+								One main obstacle that we faced was the amount of time that it would take to annotate our database, which was necessary for us to have validation. Manually annotating each post with a sentiment score would take too long, so we used Mechanical Turk and had Turkers do it instead. While this allowed us to have an annotated dataset to validate our sentiment analysis in a relatively short amount of time, the monetary cost was significant. Thus, when we later realized that there were a few different ways we could improve our scraping to gain more insights about the companies, we couldn't go back and do so because it would've taken too long manually and re-annotating through Mechanical Turk would cost too much. 
+
+								Sentiment Analysis: 
+
+								Another classic problem that we face when doing sentiment analysis is how to detect things that are not detected in the code, mainly sarcasm. Since our model predicts sentiment based solely on the words, and has no method to detect whether or not those words are said sarcastically, we could end up with a score for a post that's the opposite of what the actual intended sentiment was. Furthermore, many of the posts that contained the company were not actually about the company -- for instance, a post about another social media startup that happened to mention Facebook in the body was picked up by our scraper. Though a human (and the Turkers that annotated our dataset) could detect that further comments here are not actually about Facebook, and are thus neutral to the company, our model cannot and thus assigns some extraneous sentiments to the company.
+
+								</p>
 							</div>
 					</div>
 				</div>
-				<div id="Future" class="section scrollspy" style="height: 500px;">
-					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 600px">
+				<div id="future" class="section scrollspy" style="height: 500px;">
+					<div class="card col s12 white darken-1 z-depth-5 center-align" style="height: 500px; width: 650px;">
 							
 							<div class="card-content">
-								<span class="card-title"> Introduction </span>
-								sup boys
+								<span class="card-title"> Future </span>
+								<p>
+									One way that we'd definitely like to expand our model in the future is to consider alternate sources of data. Since we started the project, we were aware that we're drawing on the sentiment from a very specific demographic -- Reddit users. We are hoping to alleviate some of the bias that's inherent in this demographic by drawing from other sites as well -- some ideas are scraping news websites such as TechCrunch and Engadget, scraping the Facebook comments from articles posted on these websites, analyzing Twitter, etc.
+
+									Additionally, there are some other ways of validation that we can explore to get rid of our reliance on Mechanical Turk. One possibility is to train the models off already-annotated data, and then run the model on our Reddit data to predict. We considered doing this with an annotated set of Twitter data (though Twitter comes with its own limitations, such as how it limits users to 140 characters, resulting in perhaps pithier sentiments), but ultimately decided it against it because of the inability to find a suitable annotated dataset and the possible differences between Twitter and Reddit. If we could find a more similar dataset to train off of, it would make validation easier, and thus allow us to increase the scope of our model without having to depend on Turkers. 
+
+									Lastly, as mentioned above, our model does not detect sarcasm. We'd like to take a further look into related research (such as <a href='http://www.academia.edu/7499991/SENTIMENT_ANALYSIS_SARCASM_DETECTION_OF_TWEETS'>this paper</a>) to see how it can be applied to our project. 
+								</p>
 							</div>
 					</div>
 				</div>
@@ -202,6 +389,11 @@
 					<li><a href="#eda">Exploratory Data Analysis</a></li>
 					<li><a href="#methods">Methods</a></li>
 					<li><a href="#validation">Validation</a></li>
+					<li><a href="#binaryModels">Binary Models</a></li>
+					<li><a href="#categoricalModels">Categorical Models</a></li>
+					<li><a href="#secondLevelModel">Second Level Model</a></li>
+					<li><a href="#thirdLevelModel">Third Level Model</a></li>
+					<li><a href="#analysis">Analysis</a></li>
 					<li><a href="#vizweb">Visualization and Website</a></li>
 					<li><a href="#obstacles">Obstacles</a></li>
 					<li><a href="#future">Future</a></li>
@@ -295,9 +487,11 @@
 
 				            				extraComp = actualFundingData[extraIter];
 
-				            				if(extraComp['name'] == company){
+				            				var format = d3.format(",");
+
+				            				if(extraComp['name'].toUpperCase() == company.toUpperCase()){
 				            					foundFunding = true;
-						            			d3.select('#companyFunding').html('Predicted funding: ' + extraComp.funding_prediction);
+						            			d3.select('#companyFunding').html('Predicted funding: ' + format(parseFloat(extraComp.funding_prediction)));
 				            				}
 				            			}
 
