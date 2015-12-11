@@ -20,7 +20,7 @@ CompanyScoreBreakdownVis = function(_parentElement, _data, _companyList, _eventH
 
     // define all "constants" here
     this.margin = {top: 40, right: 50, bottom: 20, left: 30},
-    this.width = 720 - this.margin.left - this.margin.right,
+    this.width = $(this.parentElement).width() - this.margin.left - this.margin.right,
     this.height = 400 - this.margin.top - this.margin.bottom;
 
     this.initVis();
