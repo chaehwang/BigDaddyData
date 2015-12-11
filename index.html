@@ -179,21 +179,21 @@
 								<span class="card-title"> Exploratory Data Analysis </span>
 								<p>
 
-									<img src ='/img/eda1.png'>
+									<img src ='img/eda1.png'>
 
 									From the distribution of sentiments we can see that the sentiments are very heavily neutral. This seems to be a fairly normal distribution with an equal amount of negative and positive reddit comments. However, the overwhelming amount of neutral comments is slightly concerning in training a classification model because it will be conditioned to identifying most comments as neutral because this is what will increase the accuracy level. This unbalanced nature is something to keep in mind as we build the model and assess the accuracy score. 
 
 									We also did some exploratory data analysis on other features of the company, such as the number of funding rounds, the funding total, the age, time from last funding, and the predicted sentiment score of the company. 
 
-									<img src='/img/eda2.png'>
+									<img src='img/eda2.png'>
 
 									From these plots, we see that although most of the graphs appear to be somewhat normally distributed, some of the plots, such as total funding, age, and time since last funding, are heavily skewed to the right. To fix this, we did a log transformation on the variables skewed to make them more normal:
 
-									<img src='/img/eda4.png'>
+									<img src='img/eda4.png'>
 
 									We then wanted to see whether a linear relationship existed between any of the predictor variables and our response variable. To do this, we created scatter plots of each feature with the response variable:
 
-									<img src='/img/eda3.png'>
+									<img src='img/eda3.png'>
 
 									The data seems to slightly approximate linearity, although not too much. Despite this, we decided to try modeling a linear regression anyways.
 								</p>
@@ -232,7 +232,7 @@
 								<span class="card-title"> Binary Models </span>
 								<p>
 
-									<img src='/img/bm1.png'>
+									<img src='img/bm1.png'>
 
 									Given our binary transformed data, we explore six different classification models; MultiNomial Naive Bayes, Random Forest, Logistic Regression, Support Vector Machine, and Naive Bayes Classifier. By the nature of our unbalanced data, we found that the models that performed the best were the logistic regression and the random forest. The linear SVM performed to a similar extent. As explained previously, our data is highly unbalanced towards neutral comments. Because I grouped the neutral comments with the positive comments in the binary classification, the positive results are a heavy portion of our dataset. The logistic regression, Random Forest, and linear SVM help account for this unbalanced data by tuning one of the parameters, class_weight, and therefore acknowledging this imbalance while training the model. Our Multinomial Naive Bayes is one of the worst performing because it does not have a parameter that can account for our imbalanced data. 
 
@@ -306,7 +306,7 @@
 									From the output of our Random Forest Regressor, we can output a list of feature importances to understand which variables are driving this model:
 								</p>
 
-								<img src='/img/a1.png'>
+								<img src='img/a1.png'>
 
 								<p>
 									 Variables with the highest feature importance have the highest correlation with funding received and therefore can help us predict what factors are most significant in predicting the funding. As we can see, funding rounds are the most important predictor for funding. This would make logical sense because startups with more funding rounds accumulate more money throughout these rounds so there is a clear positive correlation. We can see that our next highest predictor is predict_range, which is the predicted sentiment of a company based on reddit users that is not weighted by the number of upvotes. While this is not as strong of a predictor as the number of funding rounds, it is the second most important and therefore we can see that a positive sentiment towards a company does positive correlation with the amount of funding. Negative sentiment from reddit comments about a company could be indicative of poor customer service and therefore indicative of low probability of success, driving down funding. 
