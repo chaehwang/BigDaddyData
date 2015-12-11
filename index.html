@@ -287,17 +287,24 @@
 				            		// if we've found the company, then find it again in actualFunding (hacky)
 				            		if(iterComp['company'] == company){
 
+				            			var foundFunding = false;
+
 				            			for(extraIter in actualFundingData){
 
 				            				extraComp = actualFundingData[extraIter];
 
 				            				if(extraComp['name'] == company){
-
-						            			d3.select('#companyAge').html('Age: ' + iterComp.age);
-						            			d3.select('#companySize').html('Size: ' + iterComp['size']);
+				            					foundFunding = true;
 						            			d3.select('#companyFunding').html('Predicted funding: ' + extraComp.funding_prediction);
 				            				}
 				            			}
+
+				            			d3.select('#companyAge').html('Age: ' + iterComp.age);
+				            			d3.select('#companySize').html('Size: ' + iterComp['size']);
+
+				            			if(!foundFunding){
+				            				d3.select('#companyFunding').html('Predicted funding: NA');
+				            			}	
 				            		}
 				            	}
 
